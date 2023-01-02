@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="76">
- <tileset firstgid="1" name="pacman-tileset" tilewidth="16" tileheight="16" tilecount="264" columns="22">
-  <image source="backgroundTiles.png" width="362" height="199"/>
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="86">
+ <tileset firstgid="1" name="pacman-tileset" tilewidth="16" tileheight="16" tilecount="80" columns="10">
+  <image source="backgroundTiles.png" width="160" height="128"/>
  </tileset>
  <objectgroup id="4" name="Map-Collision" locked="1">
   <object id="14" x="32" y="32" width="32" height="128"/>
@@ -51,9 +51,18 @@
   <object id="61" x="432" y="464" width="32" height="16"/>
   <object id="62" x="0" y="464" width="416" height="16"/>
   <object id="63" x="0" y="432" width="16" height="32"/>
+  <object id="81" x="256" y="208" width="32" height="16"/>
+  <object id="82" x="272" y="224" width="16" height="32"/>
+  <object id="83" x="192" y="240" width="80" height="16"/>
+  <object id="84" x="192" y="208" width="16" height="32"/>
+  <object id="85" x="208" y="208" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup id="9" name="Start-Position" locked="1">
+  <object id="76" x="176" y="320" width="16" height="16"/>
  </objectgroup>
  <objectgroup id="5" name="Ghost-Spawn-Collision" locked="1">
-  <object id="65" x="192" y="208" width="96" height="48"/>
+  <object id="78" x="256" y="224" width="16"/>
+  <object id="79" x="208" y="219.818" width="67.0909" height="20.1818"/>
  </objectgroup>
  <objectgroup id="6" name="Map-Transition-Horizontal-Objects" locked="1">
   <object id="70" x="464" y="32" width="16" height="16"/>
@@ -66,17 +75,17 @@
  </objectgroup>
  <layer id="1" name="Map" width="30" height="30" locked="1">
   <data encoding="base64" compression="zlib">
-   eJy9VltOAkEQnA/FI2hEj2ACZzCbcAWziYeAM6CsHmGRs9qTMElRVveMYeGjkp59VVNd3c0hpbQx7A2DYTyeL4kfw+rId02MwLs1fEC8ACzp3o3h1jAz3NE9L17AeQDeDuKczxqAdehF/viNdyce4Lx1eGsaPRrmhifDczr1hhev4dw5vJHOU8DjLfmh/3aizl7NMVbPI1cP+ittuc73hgdHe4yV7h6v8h/jBXjP0RnzKZ7lPDCXV+DlPMvZq4vnYeW/cq/k8ga8nKeqS+RhT9f83IFyifrkPx5WfYS6eJ5TUHVp4VU6c62/DN9J9zbulprO0bxC3mhORujP1FntyT28p3ZL1uQznc7rFp3RQxHYa15+rfOKPaN6coq5gX3P/R/VZineq31DzY1N0v2v6jTC8wz+b9M6NyJftvZ1lC/rrOYt+jLnsBM6qvns9RHnNqS/85Y15z2trtfqw/sCeaeA93t5LyNv8Sprqa5xfdTs6ZKeB8yLe3DVcK02D/FdzI33Kc7klmt4VnEHXNE+VftFeWcU59r/q2si85b+uyTYd3kG/AL+QJLl
+   eJy9VrtuwzAM1NDH0KKPoUAyFQayFAY6plNaux2c5v8/qBQQAefrkVKQx3CAJD+OPh5J71JKH4atYTRM+/058WtY7fkuiQl4N4ZPWC8AS7p2Zbg23Bhu6Zq3XsB+BN4O1jmeNQDz0Iv48R3vznqE/cbhrWn0YHg0PBme09wb3noN+87hjXQ+BTzeEh/6bxB59nKOa3U/cvWgv9KW83xnuHe0x7XS3eNV/mO8AO8xOmM8xbMcB8byCrwcZ9l7efE8rPxXrpVY3oCX41R5iTzs6Zrv21EsUZ0c4mFVR6iL5zkFlZcWXqUz5/rb8JN0beNsqens5Zp5oz4ZoT9SZzUnt/Ccmi1Zk68079ctOqOHIrDXvPiQK+pX7BlVk4eAvxH1Kvpw/Ue5WYrnau9gvUrdq/pXeZrgfgb/23C8LZqxL1vrOoqXdVb9Fn2ZYxiEjqo/e3XEsY3pf79lzXlOq/NafnheIO8p4H0vz2XkLV5lLdUZ50f1ni7pfsC8HVxbNZzV+iE+i7HxPMWe3HKGe7XugCuap2q+KO9MYl/7v7okMu+Q5v/K5wD7LveAP94JvyY=
   </data>
  </layer>
  <layer id="2" name="Coins-Layer" width="30" height="30" locked="1">
   <data encoding="base64" compression="zlib">
-   eJzNlOEKgDAIhHt/6J37FcSY+t3NWkJQS73znB7HXjvBQ/2qmCfm7H3GjfzL8v0N9/7OdHsDt8q92nvCgRjxJzUSXVWeFHeMyfRS58q5B65/9p/0nuRWeFa60TxRvNtfktfh6e6XiI+Lq/Q6wu3U2dmT1K/CVedSwXVyqzsj46BwpRbVqMR04M44jHczi1/Vls6Oct45s124UVykG9G2a28oZ05dX+HuqncnLr0fHX477QIIr7f3
+   eJzNlFEOgDAIQ72c97+SXyZmGfDaoZPERCfQUgbHsddO8FC/KuaJOXufcSP/snx/w72/M93ewK1yr/aecCBG/EmNRFeVJ8UdYzK91Lly7oHrn/0nvSe5FZ6VbjRPFO/2l+R1eLr7JeLj4iq9jnA7dXb2JPWrcNW5VHCd3OrOyDgoXKlFNSoxHbgzDuPdzOJXtaWzo5x3zmwXbhQX6Ua07dobyplT11e4u+rdiUvvR4ffTrsAqVpaBw==
   </data>
  </layer>
  <layer id="8" name="Ruby-Layer" width="30" height="30" locked="1">
   <data encoding="base64" compression="zlib">
-   eJxjYBg4sJjK6ijVMxLAUAsXWqYRaugdTHYMN4ArzAZ7XA8UGM5+g4HRumDwAFLCdbDFwWBxDzXcMVj8MtQAMeE2mMN2MLttpABqt08HOk4BxSgP7A==
+   eJxjYBg44E9ldZTqGQlgqIULLdMINfQOJjuGG8AVZoM9rgcKDGe/wcBoXTB4ACnhOtjiYLC4hxruGCx+GWqAmHAbzGE7mN02UgC126cDHacAn1QHuA==
   </data>
  </layer>
 </map>

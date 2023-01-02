@@ -1,10 +1,15 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonoGame.Extended.Content;
+using MonoGame.Extended.Serialization;
+using MonoGame.Extended.Sprites;
 using MonoGame.Extended.Tiled;
 using MonoGame.Extended.Tiled.Renderers;
 using Pacman.Source.Models;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Pacman
 {
@@ -16,7 +21,8 @@ namespace Pacman
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 
-        private List<Sprite> sprites;
+        private AnimatedSprite mainSpritesheet;
+        private Player player;
 
         public PacmanGame()
         {
@@ -24,6 +30,9 @@ namespace Pacman
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             Window.AllowUserResizing = false;
+
+            this.IsFixedTimeStep = true;
+            this.TargetElapsedTime = TimeSpan.FromSeconds(1 / 60.0f);
         }
 
         protected override void Initialize()
@@ -31,8 +40,6 @@ namespace Pacman
             graphics.PreferredBackBufferWidth = 680;
             graphics.PreferredBackBufferHeight = 480;
             graphics.ApplyChanges();
-
-            GraphicsDevice.Clear(new Color(33, 33, 33));
 
             base.Initialize();
         }
@@ -44,26 +51,28 @@ namespace Pacman
             extendedMap = Content.Load<TiledMap>("Maps/map");
             tiledMapRenderer = new TiledMapRenderer(GraphicsDevice, extendedMap);
 
-            sprites = new List<Sprite>()
-            {
-                new Sprite(new Dictionary<string, Animation>()
+            var playerStartPositionObj = extendedMap.ObjectLayers.Single(x => x.Name.Equals("Start-Position")).Objects.First();
+            var playerStartPosition = playerStartPositionObj.Position;
+            playerStartPosition.X += playerStartPositionObj.Size.Width / 2;
+            playerStartPosition.Y += playerStartPositionObj.Size.Height / 2;
+
+            var spriteSheet = Content.Load<SpriteSheet>("Spritesheets/pacman-spritesheet-main.sf", new JsonContentLoader());
+            mainSpritesheet = new AnimatedSprite(spriteSheet);
+
+            player = new Player(
+                new Texture2D(GraphicsDevice, (int)playerStartPositionObj.Size.Width, (int)playerStartPositionObj.Size.Height), 
+                playerStartPosition, 
+                new Input()
                 {
-                    { "move-up", new Animation(Content.Load<Texture2D>("Objects/pink/move-up"), 2) },
-                    { "move-down", new Animation(Content.Load<Texture2D>("Objects/pink/move-down"), 2) },
-                    { "move-left", new Animation(Content.Load<Texture2D>("Objects/pink/move-left"), 2) },
-                    { "move-right", new Animation(Content.Load<Texture2D>("Objects/pink/move-right"), 2) },
-                })
-                {
-                    Position = new Vector2(100, 100),
-                    Input = new Input()
-                    {
                     Up = Keys.W,
                     Down = Keys.S,
                     Left = Keys.A,
                     Right = Keys.D,
-                    },
                 },
-            };
+                mainSpritesheet,
+                new Vector2(4, 4),
+                extendedMap
+            );
         }
 
         protected override void Update(GameTime gameTime)
@@ -72,24 +81,20 @@ namespace Pacman
                 Exit();
 
             tiledMapRenderer.Update(gameTime);
-
-            foreach (var sprite in sprites)
-                sprite.Update(gameTime, sprites);
-
-            // TODO: Add your update logic here
+            player.Update(gameTime);
 
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            // TODO: Add your drawing code here
+            GraphicsDevice.Clear(new Color(33, 33, 33));
+
             tiledMapRenderer.Draw();
 
             spriteBatch.Begin();
 
-            foreach (var sprite in sprites)
-                sprite.Draw(spriteBatch);
+            player.Draw(spriteBatch);
 
             spriteBatch.End();
 

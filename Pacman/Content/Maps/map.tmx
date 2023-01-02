@@ -1,91 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="86">
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="145">
  <tileset firstgid="1" name="pacman-tileset" tilewidth="16" tileheight="16" tilecount="80" columns="10">
   <image source="backgroundTiles.png" width="160" height="128"/>
  </tileset>
- <objectgroup id="4" name="Map-Collision" locked="1">
-  <object id="14" x="32" y="32" width="32" height="128"/>
-  <object id="15" x="80" y="32" width="96" height="32"/>
-  <object id="16" x="192" y="32" width="96" height="48"/>
-  <object id="17" x="304" y="32" width="32" height="48"/>
-  <object id="20" x="352" y="32" width="32" height="48"/>
-  <object id="21" x="400" y="32" width="48" height="48"/>
-  <object id="22" x="416" y="96" width="32" height="32"/>
-  <object id="23" x="272" y="96" width="128" height="32"/>
-  <object id="24" x="272" y="144" width="48" height="48"/>
-  <object id="25" x="336" y="144" width="64" height="32"/>
-  <object id="26" x="416" y="144" width="32" height="128"/>
-  <object id="27" x="352" y="240" width="64" height="32"/>
-  <object id="28" x="304" y="240" width="32" height="32"/>
-  <object id="29" x="288" y="288" width="160" height="32"/>
-  <object id="30" x="416" y="320" width="32" height="128"/>
-  <object id="31" x="336" y="336" width="64" height="32"/>
-  <object id="32" x="368" y="384" width="32" height="64"/>
-  <object id="33" x="304" y="384" width="48" height="64"/>
-  <object id="34" x="224" y="384" width="64" height="64"/>
-  <object id="35" x="240" y="272" width="32" height="96"/>
-  <object id="36" x="272" y="336" width="48" height="32"/>
-  <object id="37" x="336" y="192" width="64" height="32"/>
-  <object id="38" x="192" y="272" width="32" height="96"/>
-  <object id="39" x="144" y="336" width="48" height="32"/>
-  <object id="40" x="144" y="384" width="64" height="64"/>
-  <object id="41" x="80" y="336" width="48" height="112"/>
-  <object id="42" x="32" y="416" width="32" height="32"/>
-  <object id="43" x="32" y="368" width="32" height="32"/>
-  <object id="44" x="32" y="320" width="32" height="32"/>
-  <object id="45" x="80" y="288" width="96" height="32"/>
-  <object id="46" x="32" y="176" width="32" height="128"/>
-  <object id="48" x="80" y="80" width="96" height="32"/>
-  <object id="49" x="144" y="96" width="64" height="32"/>
-  <object id="50" x="80" y="128" width="48" height="48"/>
-  <object id="51" x="80" y="192" width="48" height="32"/>
-  <object id="52" x="80" y="240" width="48" height="32"/>
-  <object id="53" x="144" y="144" width="32" height="128"/>
-  <object id="54" x="176" y="144" width="32" height="48"/>
-  <object id="55" x="224" y="96" width="32" height="96"/>
-  <object id="56" x="0" y="0" width="16" height="416"/>
-  <object id="57" x="16" y="0" width="32" height="16"/>
-  <object id="58" x="64" y="0" width="416" height="16"/>
-  <object id="59" x="464" y="16" width="16" height="16"/>
-  <object id="60" x="464" y="48" width="16" height="432"/>
-  <object id="61" x="432" y="464" width="32" height="16"/>
-  <object id="62" x="0" y="464" width="416" height="16"/>
-  <object id="63" x="0" y="432" width="16" height="32"/>
-  <object id="81" x="256" y="208" width="32" height="16"/>
-  <object id="82" x="272" y="224" width="16" height="32"/>
-  <object id="83" x="192" y="240" width="80" height="16"/>
-  <object id="84" x="192" y="208" width="16" height="32"/>
-  <object id="85" x="208" y="208" width="16" height="16"/>
+ <objectgroup id="4" name="map-restricted" locked="1">
+  <object id="89" x="80" y="0" width="400" height="16"/>
+  <object id="90" x="464" y="16" width="16" height="464"/>
+  <object id="91" x="416" y="464" width="48" height="16"/>
+  <object id="92" x="0" y="464" width="400" height="16"/>
+  <object id="93" x="0" y="0" width="16" height="464"/>
+  <object id="94" x="16" y="0" width="48" height="16"/>
+  <object id="95" x="32" y="32" width="32" height="128"/>
+  <object id="96" x="32" y="176" width="32" height="128"/>
+  <object id="97" x="32" y="320" width="32" height="32"/>
+  <object id="98" x="32" y="368" width="32" height="32"/>
+  <object id="99" x="32" y="416" width="32" height="32"/>
+  <object id="100" x="80" y="32" width="96" height="32"/>
+  <object id="101" x="80" y="80" width="96" height="32"/>
+  <object id="102" x="144" y="96" width="64" height="32"/>
+  <object id="103" x="80" y="128" width="48" height="48"/>
+  <object id="104" x="80" y="192" width="48" height="32"/>
+  <object id="105" x="80" y="240" width="48" height="32"/>
+  <object id="106" x="80" y="288" width="96" height="32"/>
+  <object id="107" x="80" y="336" width="48" height="112"/>
+  <object id="108" x="144" y="144" width="64" height="48"/>
+  <object id="109" x="144" y="192" width="32" height="80"/>
+  <object id="110" x="192" y="272" width="32" height="96"/>
+  <object id="111" x="144" y="336" width="48" height="32"/>
+  <object id="112" x="144" y="384" width="64" height="64"/>
+  <object id="113" x="224" y="384" width="64" height="64"/>
+  <object id="114" x="304" y="384" width="48" height="64"/>
+  <object id="115" x="368" y="384" width="32" height="64"/>
+  <object id="116" x="416" y="288" width="32" height="160"/>
+  <object id="117" x="304" y="288" width="112" height="32"/>
+  <object id="118" x="336" y="336" width="64" height="32"/>
+  <object id="119" x="240" y="336" width="80" height="32"/>
+  <object id="120" x="240" y="272" width="48" height="64"/>
+  <object id="121" x="304" y="240" width="32" height="32"/>
+  <object id="122" x="304" y="208" width="16" height="16"/>
+  <object id="123" x="352" y="240" width="96" height="32"/>
+  <object id="126" x="336" y="144" width="64" height="32"/>
+  <object id="127" x="336" y="192" width="64" height="32"/>
+  <object id="128" x="272" y="144" width="48" height="48"/>
+  <object id="129" x="224" y="96" width="32" height="96"/>
+  <object id="130" x="272" y="96" width="128" height="32"/>
+  <object id="131" x="416" y="96" width="32" height="32"/>
+  <object id="132" x="400" y="32" width="48" height="48"/>
+  <object id="133" x="352" y="32" width="32" height="48"/>
+  <object id="134" x="304" y="32" width="32" height="48"/>
+  <object id="136" x="192" y="32" width="96" height="48"/>
+  <object id="137" x="256" y="208" width="32" height="16"/>
+  <object id="138" x="272" y="224" width="16" height="32"/>
+  <object id="139" x="192" y="240" width="80" height="16"/>
+  <object id="140" x="192" y="208" width="16" height="32"/>
+  <object id="141" x="208" y="208" width="16" height="16"/>
+  <object id="142" x="416" y="144" width="32" height="96"/>
  </objectgroup>
- <objectgroup id="9" name="Start-Position" locked="1">
+ <objectgroup id="10" name="transition-vertical" locked="1">
+  <object id="143" x="64" y="0" width="16" height="16"/>
+  <object id="144" x="400" y="464" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup id="9" name="start-position" locked="1">
   <object id="76" x="176" y="320" width="16" height="16"/>
  </objectgroup>
- <objectgroup id="5" name="Ghost-Spawn-Collision" locked="1">
-  <object id="78" x="256" y="224" width="16"/>
-  <object id="79" x="208" y="219.818" width="67.0909" height="20.1818"/>
+ <objectgroup id="5" name="ghost-spawn-area" locked="1">
+  <object id="88" x="208" y="224" width="64" height="16"/>
  </objectgroup>
- <objectgroup id="6" name="Map-Transition-Horizontal-Objects" locked="1">
-  <object id="70" x="464" y="32" width="16" height="16"/>
-  <object id="71" x="0" y="416" width="16" height="16"/>
- </objectgroup>
- <objectgroup id="7" name="Map-Transition-Vertical-Objects" locked="1">
-  <object id="72" x="48" y="0" width="16" height="16"/>
-  <object id="73" x="416" y="464" width="16" height="16"/>
-  <object id="74" x="533.5" y="104.5"/>
- </objectgroup>
- <layer id="1" name="Map" width="30" height="30" locked="1">
+ <layer id="1" name="map" width="30" height="30" locked="1">
   <data encoding="base64" compression="zlib">
-   eJy9VrtuwzAM1NDH0KKPoUAyFQayFAY6plNaux2c5v8/qBQQAefrkVKQx3CAJD+OPh5J71JKH4atYTRM+/058WtY7fkuiQl4N4ZPWC8AS7p2Zbg23Bhu6Zq3XsB+BN4O1jmeNQDz0Iv48R3vznqE/cbhrWn0YHg0PBme09wb3noN+87hjXQ+BTzeEh/6bxB59nKOa3U/cvWgv9KW83xnuHe0x7XS3eNV/mO8AO8xOmM8xbMcB8byCrwcZ9l7efE8rPxXrpVY3oCX41R5iTzs6Zrv21EsUZ0c4mFVR6iL5zkFlZcWXqUz5/rb8JN0beNsqens5Zp5oz4ZoT9SZzUnt/Ccmi1Zk68079ctOqOHIrDXvPiQK+pX7BlVk4eAvxH1Kvpw/Ue5WYrnau9gvUrdq/pXeZrgfgb/23C8LZqxL1vrOoqXdVb9Fn2ZYxiEjqo/e3XEsY3pf79lzXlOq/NafnheIO8p4H0vz2XkLV5lLdUZ50f1ni7pfsC8HVxbNZzV+iE+i7HxPMWe3HKGe7XugCuap2q+KO9MYl/7v7okMu+Q5v/K5wD7LveAP94JvyY=
+   eJy9VrtOw0AQvIJHAeJRICUVsUSDLFGSKsGGwk74//9hT/KJ8Xj2zigmxSh759iznp3b9TGEsDW8G3pDa+iGvf/CwfAycJ0TN8C7M+whXgHWdO3CcGm4MlzTNS9ewRp5K4i7QfeELdSgFvnjM96cuIW1x5tDzOnOcG94MDyGsS+8GP1TObw5nZeAx5vyQ/81os5ezTFW/0euGvRX2nKdY41uHe0xVrp7vOw/hSfgPUVnzCd5lvPAXJ6Bl/NMa68unoeV/9K1lMsr8HKeqi45D3u6xv8dw7SXeufkLx5W5wh18TynoOoyh1fpzLX+NHxRDb/h/nQGSzp7tWbeXJ/MoT5RZzUje7hPzZaoyUcY9+s5OqOHcmCvefkhV65fsWe8+TYX/I49PW8dpuefNYq/m8x9pWewXuncq/PPc3VD9zH424a9NEcv9iXylrRVvlI6q36LvkxnqgnTXszaeueIc2vDtN+y5jyn1b5XH6Uz8y4B7315LiPvLvx6c1/Y4/qo3hNjNbuZt4Jr7Cm1V+qHyIu58TzFnjxnD9cqRt7cPFXzRXmnE+vS99U5EXmbMP5WXhrsw7gXe8APFsm+BQ==
   </data>
  </layer>
- <layer id="2" name="Coins-Layer" width="30" height="30" locked="1">
+ <layer id="2" name="coins-layer" width="30" height="30" locked="1">
   <data encoding="base64" compression="zlib">
-   eJzNlFEOgDAIQ72c97+SXyZmGfDaoZPERCfQUgbHsddO8FC/KuaJOXufcSP/snx/w72/M93ewK1yr/aecCBG/EmNRFeVJ8UdYzK91Lly7oHrn/0nvSe5FZ6VbjRPFO/2l+R1eLr7JeLj4iq9jnA7dXb2JPWrcNW5VHCd3OrOyDgoXKlFNSoxHbgzDuPdzOJXtaWzo5x3zmwXbhQX6Ua07dobyplT11e4u+rdiUvvR4ffTrsAqVpaBw==
+   eJzNlEsOwCAIRL1aF73/lboyaQyfB2KpiUmrwAwjMEbvusGmdp7PG1P6lriROyve33Dnv6XbCVwv9u7bEw5kEXuSI9E1ypPirj6WXtG+ytRB1t66J29PYkd4errROJp/9n1J3AzP7HyR7Kp01vyl2NYMiXDw7irtPNy5r8FyiuBGe34oPLyaq9DSmxdaDK0HTuNKHNbatHB2taV5RM4re7YKV/PTdCN1WzU3ImeZvL7C7cq3E5fWR4Vd53oAM+1ZdQ==
   </data>
  </layer>
- <layer id="8" name="Ruby-Layer" width="30" height="30" locked="1">
+ <layer id="8" name="ruby-layer" width="30" height="30" locked="1">
   <data encoding="base64" compression="zlib">
-   eJxjYBg44E9ldZTqGQlgqIULLdMINfQOJjuGG8AVZoM9rgcKDGe/wcBoXTB4ACnhOtjiYLC4hxruGCx+GWqAmHAbzGE7mN02UgC126cDHacAn1QHuA==
+   eJxjYBg44E9ldZTqGQlgqIULLdMINfQOJjuGG8AVZoM9rgcKDGe/wcBoXQABg8VP9CifaQEGi3uo4Y7B4pehBogJt8EctoPZbSMFULv8G+g4BQCTXggH
   </data>
  </layer>
 </map>

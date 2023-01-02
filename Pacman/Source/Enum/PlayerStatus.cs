@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Pacman.Source.Enum
 {
-    public enum Direction
+    public enum PlayerStatus
     {
         None = 0,
-        Up,
-        Down, 
-        Left, 
-        Right
+        NeedLeft,
+        NeedRight,
+        NeedUp,
+        NeedDown,
     }
 }

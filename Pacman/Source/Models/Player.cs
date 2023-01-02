@@ -24,6 +24,8 @@ namespace Pacman.Source.Models
         private readonly Vector2 _offset; 
 
         private float rotation;
+        private PlayerStatus status = PlayerStatus.None;
+        private Direction direction = Direction.None;
 
         public Player(
             Texture2D texture, 
@@ -34,9 +36,10 @@ namespace Pacman.Source.Models
             TiledMap map) 
             : base(texture, position)
         {
+            _map = map;
             _input = input;
             _animation = animatedSprite;
-            _restrictedWays = map.ObjectLayers.Single(x => x.Name.Equals("Map-Collision"));
+            _restrictedWays = map.ObjectLayers.Single(x => x.Name.Equals("map-restricted"));
             _offset = animatedSprite.Origin;
 
             Velocity = velocity;
@@ -47,37 +50,37 @@ namespace Pacman.Source.Models
         public override void Update(GameTime gameTime)
         {
             var deltaSeconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            var position = Position;
 
             var keyboardState = Keyboard.GetState();
             if (keyboardState.IsKeyDown(_input.Up))
             {
-                position.Y -= Velocity.Y;
-                rotation = -90f;
+                status = PlayerStatus.NeedUp;
 
-                Move(Direction.Up, position);
+                //Move(Direction.Up, position);
             }
             else if (keyboardState.IsKeyDown(_input.Down))
             {
-                position.Y += Velocity.Y;
-                rotation = 90f;
+                status = PlayerStatus.NeedDown;
 
-                Move(Direction.Down, position);
+                //Move(Direction.Down, position);
             }
             else if (keyboardState.IsKeyDown(_input.Left))
             {
-                position.X -= Velocity.X;
-                rotation = 180f;
+                status = PlayerStatus.NeedLeft;
 
-                Move(Direction.Left, position);
+                //Move(Direction.Left, position);
             }
             else if (keyboardState.IsKeyDown(_input.Right))
             {
-                position.X += Velocity.X;
-                rotation = 0f;
+                status = PlayerStatus.NeedRight;
 
-                Move(Direction.Right, position);
+                //Move(Direction.Right, position);
             }
+
+            if (status == PlayerStatus.None && direction != Direction.None)
+                MoveDirection();
+            else if (status != PlayerStatus.None)
+                MoveStatus();
 
             _animation.Play("player-main");
             _animation.Update(deltaSeconds);
@@ -88,36 +91,116 @@ namespace Pacman.Source.Models
             spriteBatch.Draw(_animation, Position, MathHelper.ToRadians(rotation));
         }
 
-        private void Move(Direction direction, Vector2 position)
+        private void MoveStatus()
         {
-            if (IsInRestrictedArea(position))
-                return;
+            Direction localDirection = Direction.None;
+            var position = Position;
 
-            switch(direction)
+            switch (status)
+            {
+                case PlayerStatus.NeedLeft:
+                    {
+                        position.X -= Velocity.X;
+                        localDirection = Direction.Left;
+                    }
+                    break;
+                case PlayerStatus.NeedRight:
+                    {
+                        position.X += Velocity.X;
+                        localDirection = Direction.Right;
+                    }
+                    break;
+                case PlayerStatus.NeedUp:
+                    {
+                        position.Y -= Velocity.Y;
+                        localDirection = Direction.Up;
+                    }
+                    break;
+                case PlayerStatus.NeedDown:
+                    {
+                        position.Y += Velocity.Y;
+                        localDirection = Direction.Down;
+                    }
+                    break;
+                case PlayerStatus.None:
+                    return;
+            }
+
+            if (IsInRestrictedArea(position))
+            {
+                MoveDirection();
+                return;
+            }
+
+            direction = localDirection;
+            status = PlayerStatus.None;
+
+            Position = position;
+
+            ApplyRotation();
+        }
+
+        private void MoveDirection()
+        {
+            var position = Position;
+
+            switch (direction)
             {
                 case Direction.Left:
                     {
-
+                        position.X -= Velocity.X;
                     }
                     break;
                 case Direction.Right:
                     {
-
+                        position.X += Velocity.X;
                     }
                     break;
                 case Direction.Up:
                     {
-
+                        position.Y -= Velocity.Y;
                     }
                     break;
                 case Direction.Down:
                     {
+                        position.Y += Velocity.Y;
+                    }
+                    break;
+                default:
+                    return;
+            }
 
+            if (IsInRestrictedArea(position))
+                return;
+
+            Position = position;
+        }
+
+        private void ApplyRotation()
+        {
+            switch (direction)
+            {
+                case Direction.Left:
+                    {
+                        rotation = 180f;
+                    }
+                    break;
+                case Direction.Right:
+                    {
+                        rotation = 0f;
+                    }
+                    break;
+                case Direction.Up:
+                    {
+                        rotation = -90f;
+                    }
+                    break;
+                case Direction.Down:
+                    {
+                        rotation = 90f;
                     }
                     break;
             }
-
-            Position = position;
         }
 
         private bool IsInRestrictedArea(Vector2 position)

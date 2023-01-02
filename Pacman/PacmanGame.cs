@@ -51,7 +51,7 @@ namespace Pacman
             extendedMap = Content.Load<TiledMap>("Maps/map");
             tiledMapRenderer = new TiledMapRenderer(GraphicsDevice, extendedMap);
 
-            var playerStartPositionObj = extendedMap.ObjectLayers.Single(x => x.Name.Equals("Start-Position")).Objects.First();
+            var playerStartPositionObj = extendedMap.ObjectLayers.Single(x => x.Name.Equals("start-position")).Objects.First();
             var playerStartPosition = playerStartPositionObj.Position;
             playerStartPosition.X += playerStartPositionObj.Size.Width / 2;
             playerStartPosition.Y += playerStartPositionObj.Size.Height / 2;
@@ -70,7 +70,7 @@ namespace Pacman
                     Right = Keys.D,
                 },
                 mainSpritesheet,
-                new Vector2(4, 4),
+                new Vector2(1, 1),
                 extendedMap
             );
         }
@@ -88,7 +88,7 @@ namespace Pacman
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(new Color(33, 33, 33));
+            GraphicsDevice.Clear(Color.Black);
 
             tiledMapRenderer.Draw();
 

@@ -21,7 +21,9 @@ namespace Pacman.Source.Models
         private readonly Input _input;
         private readonly TiledMap _map;
         private readonly TiledMapObjectLayer _restrictedWays;
-        private readonly Vector2 _offset; 
+
+        private readonly Vector2 _offset;
+        private readonly Transitions _transitions;
 
         private float rotation;
         private PlayerStatus status = PlayerStatus.None;
@@ -33,7 +35,8 @@ namespace Pacman.Source.Models
             Input input, 
             AnimatedSprite animatedSprite,
             Vector2 velocity,
-            TiledMap map) 
+            TiledMap map,
+            Transitions transitions) 
             : base(texture, position)
         {
             _map = map;
@@ -41,11 +44,12 @@ namespace Pacman.Source.Models
             _animation = animatedSprite;
             _restrictedWays = map.ObjectLayers.Single(x => x.Name.Equals("map-restricted"));
             _offset = animatedSprite.Origin;
+            _transitions = transitions;
 
             Velocity = velocity;
         }
 
-        public Vector2 Velocity { get; set; }
+        public Vector2 Velocity { get; init; }
 
         public override void Update(GameTime gameTime)
         {
@@ -55,32 +59,26 @@ namespace Pacman.Source.Models
             if (keyboardState.IsKeyDown(_input.Up))
             {
                 status = PlayerStatus.NeedUp;
-
-                //Move(Direction.Up, position);
             }
             else if (keyboardState.IsKeyDown(_input.Down))
             {
                 status = PlayerStatus.NeedDown;
-
-                //Move(Direction.Down, position);
             }
             else if (keyboardState.IsKeyDown(_input.Left))
             {
                 status = PlayerStatus.NeedLeft;
-
-                //Move(Direction.Left, position);
             }
             else if (keyboardState.IsKeyDown(_input.Right))
             {
                 status = PlayerStatus.NeedRight;
-
-                //Move(Direction.Right, position);
             }
 
             if (status == PlayerStatus.None && direction != Direction.None)
                 MoveDirection();
             else if (status != PlayerStatus.None)
                 MoveStatus();
+
+            CheckTransitions();
 
             _animation.Play("player-main");
             _animation.Update(deltaSeconds);
@@ -89,6 +87,23 @@ namespace Pacman.Source.Models
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(_animation, Position, MathHelper.ToRadians(rotation));
+        }
+
+        private void CheckTransitions()
+        {
+            if (Position.X == _transitions.Top.Position.X && Position.Y < _transitions.Top.Position.Y && direction == _transitions.Top.Direction)
+            {
+                Position = new Vector2(_transitions.Down.Position.X, _transitions.Down.Position.Y /*- _transitions.Down.Size.Height + 1*/);
+                direction = Direction.Up;
+                return;
+            }
+
+            if (Position.X == _transitions.Down.Position.X && Position.Y > _transitions.Down.Position.Y && direction == _transitions.Down.Direction)
+            {
+                Position = new Vector2(_transitions.Top.Position.X, _transitions.Top.Position.Y /*+ _transitions.Top.Size.Height - 1*/);
+                direction = Direction.Down;
+                return;
+            }
         }
 
         private void MoveStatus()

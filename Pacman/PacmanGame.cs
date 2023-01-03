@@ -24,6 +24,9 @@ namespace Pacman
         private AnimatedSprite mainSpritesheet;
         private Player player;
 
+        private TiledMapObjectLayer mapTransitionsLayer;
+        private Transitions transitions;
+
         public PacmanGame()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -51,6 +54,29 @@ namespace Pacman
             extendedMap = Content.Load<TiledMap>("Maps/map");
             tiledMapRenderer = new TiledMapRenderer(GraphicsDevice, extendedMap);
 
+            #region transitions
+            mapTransitionsLayer = extendedMap.ObjectLayers.Single(x => x.Name.Equals("transition-vertical"));
+            var topTransition = mapTransitionsLayer.Objects.Single(x => x.Name.Equals("top"));
+            var downTransition = mapTransitionsLayer.Objects.Single(x => x.Name.Equals("down"));
+
+            transitions = new Transitions()
+            {
+                Top = new Transition()
+                {
+                    Direction = Source.Enum.Direction.Up,
+                    Position = topTransition.Position + new Vector2(topTransition.Size.Width / 2, topTransition.Size.Height / 2 - topTransition.Size.Height + 1),
+                    Size = topTransition.Size
+                },
+                Down = new Transition()
+                {
+                    Direction = Source.Enum.Direction.Down,
+                    Position = downTransition.Position + new Vector2(downTransition.Size.Width / 2, downTransition.Size.Height / 2 + downTransition.Size.Height - 1),
+                    Size = downTransition.Size
+                },
+            };
+            #endregion
+
+            #region player
             var playerStartPositionObj = extendedMap.ObjectLayers.Single(x => x.Name.Equals("start-position")).Objects.First();
             var playerStartPosition = playerStartPositionObj.Position;
             playerStartPosition.X += playerStartPositionObj.Size.Width / 2;
@@ -71,8 +97,10 @@ namespace Pacman
                 },
                 mainSpritesheet,
                 new Vector2(1, 1),
-                extendedMap
+                extendedMap,
+                transitions
             );
+            #endregion
         }
 
         protected override void Update(GameTime gameTime)

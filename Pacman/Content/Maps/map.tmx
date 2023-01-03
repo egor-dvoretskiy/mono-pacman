@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="145">
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="148">
  <tileset firstgid="1" name="pacman-tileset" tilewidth="16" tileheight="16" tilecount="80" columns="10">
   <image source="backgroundTiles.png" width="160" height="128"/>
  </tileset>
@@ -55,10 +55,12 @@
   <object id="140" x="192" y="208" width="16" height="32"/>
   <object id="141" x="208" y="208" width="16" height="16"/>
   <object id="142" x="416" y="144" width="32" height="96"/>
+  <object id="146" name="ghost-entrance-1" x="224" y="208" width="16" height="16"/>
+  <object id="147" name="ghost-entrance-2" x="240" y="208" width="16" height="16"/>
  </objectgroup>
  <objectgroup id="10" name="transition-vertical" locked="1">
-  <object id="143" x="64" y="0" width="16" height="16"/>
-  <object id="144" x="400" y="464" width="16" height="16"/>
+  <object id="143" name="top" x="64" y="0" width="16" height="16"/>
+  <object id="144" name="down" x="400" y="464" width="16" height="16"/>
  </objectgroup>
  <objectgroup id="9" name="start-position" locked="1">
   <object id="76" x="176" y="320" width="16" height="16"/>
@@ -68,17 +70,17 @@
  </objectgroup>
  <layer id="1" name="map" width="30" height="30" locked="1">
   <data encoding="base64" compression="zlib">
-   eJy9VrtOw0AQvIJHAeJRICUVsUSDLFGSKsGGwk74//9hT/KJ8Xj2zigmxSh759iznp3b9TGEsDW8G3pDa+iGvf/CwfAycJ0TN8C7M+whXgHWdO3CcGm4MlzTNS9ewRp5K4i7QfeELdSgFvnjM96cuIW1x5tDzOnOcG94MDyGsS+8GP1TObw5nZeAx5vyQ/81os5ezTFW/0euGvRX2nKdY41uHe0xVrp7vOw/hSfgPUVnzCd5lvPAXJ6Bl/NMa68unoeV/9K1lMsr8HKeqi45D3u6xv8dw7SXeufkLx5W5wh18TynoOoyh1fpzLX+NHxRDb/h/nQGSzp7tWbeXJ/MoT5RZzUje7hPzZaoyUcY9+s5OqOHcmCvefkhV65fsWe8+TYX/I49PW8dpuefNYq/m8x9pWewXuncq/PPc3VD9zH424a9NEcv9iXylrRVvlI6q36LvkxnqgnTXszaeueIc2vDtN+y5jyn1b5XH6Uz8y4B7315LiPvLvx6c1/Y4/qo3hNjNbuZt4Jr7Cm1V+qHyIu58TzFnjxnD9cqRt7cPFXzRXmnE+vS99U5EXmbMP5WXhrsw7gXe8APFsm+BQ==
+   eJy9VstOwzAQ9IHHAcTjgNSeaCQuKBJHempJEFLS8v//w1qKxWQyawc19DDq2mkym9nxbo4hhK3h3dAbWkM37P0XDoaXgeucuAHenWEP8QqwpmsXhkvDleGarnnxCtbIW0HcDbonbKEGtcgfn/HmxC2sPd4cYk53hnvDg+ExjH3hxeifyuHN6bwEPN6UH/qvEXX2ao6x+j9y1aC/0pbrHGt062iPsdLd42X/KTwB7yk6Yz7Js5wH5vIMvJxnWnt18Tys/JeupVxegZfzVHXJedjTNf7vGKa91Dsnf/GwOkeoi+c5BVWXObxKZ671p+GLavgN96czWNLZqzXz5vpkDvWJOqsZ2cN9arZETT7CuF/P0Rk9lAN7zcsPuXL9ij3jzbe54Hfs6XnrMD3/rFH83WTuKz2D9UrnXp1/nqsbuo/B3zbspTl6sS+Rt6St8pXSWfVb9GU6U02Y9mLW1jtHnFsbpv2WNec5rfa9+iidmXcJeO/Lcxl5d+HXm/vCHtdH9Z4Yq9nNvBVcY0+pvVI/RF7Mjecp9uQ5e7hWMfLm5qmaL8o7nViXvq/OicjbhPG38tJgH8a92AN+AB6FvgY=
   </data>
  </layer>
  <layer id="2" name="coins-layer" width="30" height="30" locked="1">
   <data encoding="base64" compression="zlib">
-   eJzNlEsOwCAIRL1aF73/lboyaQyfB2KpiUmrwAwjMEbvusGmdp7PG1P6lriROyve33Dnv6XbCVwv9u7bEw5kEXuSI9E1ypPirj6WXtG+ytRB1t66J29PYkd4errROJp/9n1J3AzP7HyR7Kp01vyl2NYMiXDw7irtPNy5r8FyiuBGe34oPLyaq9DSmxdaDK0HTuNKHNbatHB2taV5RM4re7YKV/PTdCN1WzU3ImeZvL7C7cq3E5fWR4Vd53oAM+1ZdQ==
+   eJzdk10OwCAIg73c7n+lvS4LPy0UXWZiYlT6YcG1zo5raFraT6a1tnJDziK9L3Iz36a4kbaq5gxXfT/zeRf3HZN5NeEz+17mfuRrpoOc7ahv1dvsvzH1Y1joP/e0VT578ZZ2p4e7763e69S3y61oV3pO4WUUF2lE/2CS6+Wg8hnhevlV99F8d3FVfTrtM7KHshiflVwk/k/car+w8/S4ARRPXc0=
   </data>
  </layer>
  <layer id="8" name="ruby-layer" width="30" height="30" locked="1">
   <data encoding="base64" compression="zlib">
-   eJxjYBg44E9ldZTqGQlgqIULLdMINfQOJjuGG8AVZoM9rgcKDGe/wcBoXQABg8VP9CifaQEGi3uo4Y7B4pehBogJt8EctoPZbSMFULv8G+g4BQCTXggH
+   eJxjYBg44D9EzR4Fo2AUDE0wWi4MbTAaf0MTjMbbyAFDOa6HsttHAf0BtdPLQKc/AKYPAsg=
   </data>
  </layer>
 </map>

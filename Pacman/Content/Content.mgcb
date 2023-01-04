@@ -33,6 +33,30 @@
 /processor:TiledMapProcessor
 /build:Maps/map.tmx
 
+#begin Spritesheets/Map-Objects/coin.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Spritesheets/Map-Objects/coin.png
+
+#begin Spritesheets/Map-Objects/ruby.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Spritesheets/Map-Objects/ruby.png
+
 #begin Spritesheets/pacman-all-pallets.png
 /importer:TextureImporter
 /processor:TextureProcessor

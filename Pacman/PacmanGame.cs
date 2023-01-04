@@ -27,6 +27,9 @@ namespace Pacman
         private TiledMapObjectLayer mapTransitionsLayer;
         private Transitions transitions;
 
+        private readonly List<MapCollectableObject> coins;
+        private readonly List<MapCollectableObject> rubies;
+
         public PacmanGame()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -36,6 +39,9 @@ namespace Pacman
 
             this.IsFixedTimeStep = true;
             this.TargetElapsedTime = TimeSpan.FromSeconds(1 / 60.0f);
+
+            coins = new List<MapCollectableObject>();
+            rubies = new List<MapCollectableObject>();
         }
 
         protected override void Initialize()
@@ -54,7 +60,30 @@ namespace Pacman
             extendedMap = Content.Load<TiledMap>("Maps/map");
             tiledMapRenderer = new TiledMapRenderer(GraphicsDevice, extendedMap);
 
+            #region coins
+
+            var coinTexture = Content.Load<Texture2D>("Spritesheets/Map-Objects/coin");
+            var coinsMapObjects = extendedMap.ObjectLayers.Single(x => x.Name.Equals("coins"));
+            for (int i = 0; i < coinsMapObjects.Objects.Length; i++)
+            {
+                coins.Add(new MapCollectableObject(coinTexture, coinsMapObjects.Objects[i].Position));
+            }
+
+            #endregion
+
+            #region rubies
+
+            var rubyTexture = Content.Load<Texture2D>("Spritesheets/Map-Objects/ruby");
+            var rubiesMapObjects = extendedMap.ObjectLayers.Single(x => x.Name.Equals("rubies"));
+            for (int i = 0; i < rubiesMapObjects.Objects.Length; i++)
+            {
+                rubies.Add(new MapCollectableObject(rubyTexture, rubiesMapObjects.Objects[i].Position));
+            }
+
+            #endregion
+
             #region transitions
+
             mapTransitionsLayer = extendedMap.ObjectLayers.Single(x => x.Name.Equals("transition-vertical"));
             var topTransition = mapTransitionsLayer.Objects.Single(x => x.Name.Equals("top"));
             var downTransition = mapTransitionsLayer.Objects.Single(x => x.Name.Equals("down"));
@@ -74,9 +103,11 @@ namespace Pacman
                     Size = downTransition.Size
                 },
             };
+
             #endregion
 
             #region player
+
             var playerStartPositionObj = extendedMap.ObjectLayers.Single(x => x.Name.Equals("start-position")).Objects.First();
             var playerStartPosition = playerStartPositionObj.Position;
             playerStartPosition.X += playerStartPositionObj.Size.Width / 2;
@@ -100,6 +131,7 @@ namespace Pacman
                 extendedMap,
                 transitions
             );
+
             #endregion
         }
 
@@ -122,11 +154,30 @@ namespace Pacman
 
             spriteBatch.Begin();
 
+            DrawCoins();
+            DrawRubies();
+
             player.Draw(spriteBatch);
 
             spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        private void DrawCoins()
+        {
+            for (int i = 0; i < coins.Count; i++)
+            {
+                coins[i].Draw(spriteBatch);
+            }
+        }
+
+        private void DrawRubies()
+        {
+            for (int i = 0; i < rubies.Count; i++)
+            {
+                rubies[i].Draw(spriteBatch);
+            }
         }
     }
 }

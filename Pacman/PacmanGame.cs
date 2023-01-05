@@ -143,6 +143,9 @@ namespace Pacman
             tiledMapRenderer.Update(gameTime);
             player.Update(gameTime);
 
+            CheckCoinIntersection(player);
+            CheckRubyIntersection(player);
+
             base.Update(gameTime);
         }
 
@@ -177,6 +180,30 @@ namespace Pacman
             for (int i = 0; i < rubies.Count; i++)
             {
                 rubies[i].Draw(spriteBatch);
+            }
+        }
+
+        private void CheckCoinIntersection(Player player)
+        {
+            for (int i = 0; i < coins.Count; i++)
+            {
+                if (coins[i].IsIntesectsWithPlayer(player))
+                {
+                    coins.RemoveAt(i);
+                    return;
+                }
+            }
+        }
+
+        private void CheckRubyIntersection(Player player)
+        {
+            for (int i = 0; i < rubies.Count; i++)
+            {
+                if (rubies[i].IsIntesectsWithPlayer(player))
+                {
+                    rubies.RemoveAt(i);
+                    return;
+                }
             }
         }
     }

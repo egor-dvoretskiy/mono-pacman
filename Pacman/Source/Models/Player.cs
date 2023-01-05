@@ -51,6 +51,11 @@ namespace Pacman.Source.Models
 
         public Vector2 Velocity { get; init; }
 
+        public Direction Direction
+        {
+            get => direction;
+        }
+
         public override void Update(GameTime gameTime)
         {
             var deltaSeconds = (float)gameTime.ElapsedGameTime.TotalSeconds;

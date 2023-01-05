@@ -10,8 +10,6 @@ namespace Pacman.Source.Abstract
 {
     public abstract class Sprite
     {
-        private readonly int _sizeInnerBoxIntersection = 4;
-
         protected Texture2D texture;
 
         public Sprite(Texture2D texture, Vector2 position)
@@ -29,16 +27,6 @@ namespace Pacman.Source.Abstract
                 (int)Position.Y,
                 Width,
                 Height
-            );
-        }
-
-        public Rectangle BoxIntersectionForCollectableObject
-        {
-            get => new Rectangle(
-                (int)Position.X + Width / 2 - _sizeInnerBoxIntersection / 2,
-                (int)Position.Y + Height / 2 - _sizeInnerBoxIntersection / 2,
-                _sizeInnerBoxIntersection,
-                _sizeInnerBoxIntersection
             );
         }
 

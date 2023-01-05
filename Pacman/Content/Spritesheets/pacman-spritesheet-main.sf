@@ -30,6 +30,11 @@
       "isLooping": true,
       "frameDuration": 0.2
     },
+    "ghost-blue-vulnerable": {
+      "frames": [60,61],
+      "isLooping": true,
+      "frameDuration": 0.2
+    },
     "ghost-yellow-move-left": {
       "frames": [108,109],
       "isLooping": true,
@@ -47,6 +52,11 @@
     },
     "ghost-yellow-move-down": {
       "frames": [110,111],
+      "isLooping": true,
+      "frameDuration": 0.2
+    },
+    "ghost-yellow-vulnerable": {
+      "frames": [156,157],
       "isLooping": true,
       "frameDuration": 0.2
     },
@@ -70,6 +80,11 @@
       "isLooping": true,
       "frameDuration": 0.2
     },
+    "ghost-red-vulnerable": {
+      "frames": [252,253],
+      "isLooping": true,
+      "frameDuration": 0.2
+    },
     "ghost-orange-move-left": {
       "frames": [300,301],
       "isLooping": true,
@@ -87,6 +102,11 @@
     },
     "ghost-orange-move-down": {
       "frames": [302,303],
+      "isLooping": true,
+      "frameDuration": 0.2
+    },
+    "ghost-orange-vulnerable": {
+      "frames": [348,349],
       "isLooping": true,
       "frameDuration": 0.2
     },
@@ -110,6 +130,11 @@
       "isLooping": true,
       "frameDuration": 0.2
     },
+    "ghost-green-vulnerable": {
+      "frames": [444,445],
+      "isLooping": true,
+      "frameDuration": 0.2
+    },
     "ghost-sky-move-left": {
       "frames": [492,493],
       "isLooping": true,
@@ -127,6 +152,31 @@
     },
     "ghost-sky-move-down": {
       "frames": [494,495],
+      "isLooping": true,
+      "frameDuration": 0.2
+    },
+    "ghost-sky-vulnerable": {
+      "frames": [540,541],
+      "isLooping": true,
+      "frameDuration": 0.2
+    },
+    "ghost-consumed-move-left": {
+      "frames": [16,17],
+      "isLooping": true,
+      "frameDuration": 0.2
+    },
+    "ghost-consumed-move-up": {
+      "frames": [40,41],
+      "isLooping": true,
+      "frameDuration": 0.2
+    },
+    "ghost-consumed-move-right": {
+      "frames": [42,43],
+      "isLooping": true,
+      "frameDuration": 0.2
+    },
+    "ghost-consumed-move-down": {
+      "frames": [18,19],
       "isLooping": true,
       "frameDuration": 0.2
     }

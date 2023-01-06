@@ -238,6 +238,9 @@ namespace Pacman
                 int i = (int)position.X / extendedMap.TileWidth;
                 int j = (int)position.Y / extendedMap.TileHeight;
 
+                if (obj.Name.Equals("ghost-entrance-1") || obj.Name.Equals("ghost-entrance-2"))
+                    continue;
+
                 //pzdc, i know
                 for (int i2 = 0; i2 < obj.Size.Width / extendedMap.TileWidth; i2++)
                 {

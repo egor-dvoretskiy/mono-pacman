@@ -35,9 +35,13 @@ namespace Pacman.Source.Models
 
         public Vector2 Velocity { get; set; }
 
+        public GhostPhase GhostPhase { get; set; }
+
         public override void Update(GameTime gameTime)
         {
             var deltaSeconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            Move();
 
             _animation.Play(_animationNames.Left);
             _animation.Update(deltaSeconds);
@@ -46,6 +50,28 @@ namespace Pacman.Source.Models
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(_animation, Position, 0);
+        }
+
+        private void Move()
+        {
+            switch(GhostPhase)
+            {
+                case GhostPhase.Scatter:
+                    {
+
+                    }
+                    break;
+                case GhostPhase.Chase:
+                    {
+
+                    }
+                    break;
+                case GhostPhase.Frightened:
+                    {
+
+                    }
+                    break;
+            }
         }
     }
 }

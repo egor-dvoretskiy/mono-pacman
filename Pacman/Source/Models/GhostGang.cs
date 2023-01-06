@@ -5,6 +5,7 @@ using MonoGame.Extended.Content;
 using MonoGame.Extended.Serialization;
 using MonoGame.Extended.Sprites;
 using MonoGame.Extended.Tiled;
+using Pacman.Source.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,8 @@ namespace Pacman.Source.Models
         private readonly GhostAnimationCall _animationNamesYellow;
         private readonly GhostAnimationCall _animationNamesRed;
         private readonly GhostAnimationCall _animationNamesGreen;
+
+        private GhostPhase ghostPhase = GhostPhase.Scatter;
 
         public GhostGang(
             Texture2D texture,
@@ -143,6 +146,7 @@ namespace Pacman.Source.Models
         {
             foreach (var ghost in _ghosts)
             {
+                ghost.GhostPhase = ghostPhase;
                 ghost.Update(gameTime);
             }
         }

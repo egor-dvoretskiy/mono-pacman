@@ -17,6 +17,7 @@ namespace Pacman
     {
         private TiledMap extendedMap;
         private TiledMapRenderer tiledMapRenderer;
+        private int[,] mapMatrix;
 
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
@@ -58,8 +59,14 @@ namespace Pacman
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            #region map
+
             extendedMap = Content.Load<TiledMap>("Maps/map");
             tiledMapRenderer = new TiledMapRenderer(GraphicsDevice, extendedMap);
+            mapMatrix = new int[extendedMap.Width, extendedMap.Height];
+            FillMapMatrix();
+
+            #endregion
 
             #region coins
 
@@ -219,6 +226,27 @@ namespace Pacman
                     _rubies.RemoveAt(i);
                     return;
                 }
+            }
+        }
+
+        private void FillMapMatrix()
+        {
+            var restricted = extendedMap.ObjectLayers.Single(x => x.Name.Equals("map-restricted"));
+            foreach (var obj in restricted.Objects)
+            {
+                var position = obj.Position;
+                int i = (int)position.X / extendedMap.TileWidth;
+                int j = (int)position.Y / extendedMap.TileHeight;
+
+                //pzdc, i know
+                for (int i2 = 0; i2 < obj.Size.Width / extendedMap.TileWidth; i2++)
+                {
+                    for (int j2 = 0; j2 < obj.Size.Height / extendedMap.TileHeight; j2++)
+                    {
+                        mapMatrix[j + j2, i + i2] = 1;
+                    }
+                }
+
             }
         }
     }

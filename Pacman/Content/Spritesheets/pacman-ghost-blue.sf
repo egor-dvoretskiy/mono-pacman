@@ -1,0 +1,54 @@
+{
+  "textureAtlas": {
+    "texture": "pacman-all-pallets.png",
+    "regionWidth": 16,
+    "regionHeight": 16
+  },
+  "cycles": {
+    "ghost-blue-move-left": {
+      "frames": [12,13],
+      "isLooping": true,
+      "frameDuration": 0.2
+    },
+    "ghost-blue-move-up": {
+      "frames": [36,37],
+      "isLooping": true,
+      "frameDuration": 0.2
+    },
+    "ghost-blue-move-right": {
+      "frames": [38,39],
+      "isLooping": true,
+      "frameDuration": 0.2
+    },
+    "ghost-blue-move-down": {
+      "frames": [14,15],
+      "isLooping": true,
+      "frameDuration": 0.2
+    },
+    "ghost-blue-vulnerable": {
+      "frames": [60,61],
+      "isLooping": true,
+      "frameDuration": 0.2
+    },
+    "ghost-consumed-move-left": {
+      "frames": [16,17],
+      "isLooping": true,
+      "frameDuration": 0.2
+    },
+    "ghost-consumed-move-up": {
+      "frames": [40,41],
+      "isLooping": true,
+      "frameDuration": 0.2
+    },
+    "ghost-consumed-move-right": {
+      "frames": [42,43],
+      "isLooping": true,
+      "frameDuration": 0.2
+    },
+    "ghost-consumed-move-down": {
+      "frames": [18,19],
+      "isLooping": true,
+      "frameDuration": 0.2
+    }
+  }
+}

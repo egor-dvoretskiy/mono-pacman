@@ -1,0 +1,14 @@
+{
+  "textureAtlas": {
+    "texture": "pacman-all-pallets.png",
+    "regionWidth": 16,
+    "regionHeight": 16
+  },
+  "cycles": {
+    "player-main": {
+      "frames": [0,1,2,3],
+      "isLooping": true,
+      "frameDuration": 0.1
+    }
+  }
+}

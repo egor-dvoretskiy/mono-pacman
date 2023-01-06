@@ -69,9 +69,18 @@
 /processorParam:TextureFormat=Color
 /build:Spritesheets/pacman-all-pallets.png
 
-#begin Spritesheets/pacman-spritesheet-main.sf
-/importer:SpriteFactoryContentImporter
-/processor:SpriteFactoryContentProcessor
-/processorParam:ContentType=MonoGame.Extended MonoGame.Extended.Animations.SpriteFactory.SpriteFactoryFileReader, MonoGame.Extended.Animations
-/build:Spritesheets/pacman-spritesheet-main.sf
+#begin Spritesheets/pacman-ghost-blue.sf
+/copy:Spritesheets/pacman-ghost-blue.sf
+
+#begin Spritesheets/pacman-ghost-green.sf
+/copy:Spritesheets/pacman-ghost-green.sf
+
+#begin Spritesheets/pacman-ghost-red.sf
+/copy:Spritesheets/pacman-ghost-red.sf
+
+#begin Spritesheets/pacman-ghost-yellow.sf
+/copy:Spritesheets/pacman-ghost-yellow.sf
+
+#begin Spritesheets/pacman-main.sf
+/copy:Spritesheets/pacman-main.sf
 

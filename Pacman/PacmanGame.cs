@@ -23,12 +23,13 @@ namespace Pacman
 
         private AnimatedSprite mainSpritesheet;
         private Player player;
+        private GhostGang _ghostGang;
 
         private TiledMapObjectLayer mapTransitionsLayer;
         private Transitions transitions;
 
-        private readonly List<MapCollectableObject> coins;
-        private readonly List<MapCollectableObject> rubies;
+        private readonly List<MapCollectableObject> _coins;
+        private readonly List<MapCollectableObject> _rubies;
 
         public PacmanGame()
         {
@@ -40,8 +41,8 @@ namespace Pacman
             this.IsFixedTimeStep = true;
             this.TargetElapsedTime = TimeSpan.FromSeconds(1 / 60.0f);
 
-            coins = new List<MapCollectableObject>();
-            rubies = new List<MapCollectableObject>();
+            _coins = new List<MapCollectableObject>();
+            _rubies = new List<MapCollectableObject>();
         }
 
         protected override void Initialize()
@@ -66,7 +67,7 @@ namespace Pacman
             var coinsMapObjects = extendedMap.ObjectLayers.Single(x => x.Name.Equals("coins"));
             for (int i = 0; i < coinsMapObjects.Objects.Length; i++)
             {
-                coins.Add(new MapCollectableObject(coinTexture, coinsMapObjects.Objects[i].Position));
+                _coins.Add(new MapCollectableObject(coinTexture, coinsMapObjects.Objects[i].Position));
             }
 
             #endregion
@@ -77,7 +78,7 @@ namespace Pacman
             var rubiesMapObjects = extendedMap.ObjectLayers.Single(x => x.Name.Equals("rubies"));
             for (int i = 0; i < rubiesMapObjects.Objects.Length; i++)
             {
-                rubies.Add(new MapCollectableObject(rubyTexture, rubiesMapObjects.Objects[i].Position));
+                _rubies.Add(new MapCollectableObject(rubyTexture, rubiesMapObjects.Objects[i].Position));
             }
 
             #endregion
@@ -113,7 +114,7 @@ namespace Pacman
             playerStartPosition.X += playerStartPositionObj.Size.Width / 2;
             playerStartPosition.Y += playerStartPositionObj.Size.Height / 2;
 
-            var spriteSheet = Content.Load<SpriteSheet>("Spritesheets/pacman-spritesheet-main.sf", new JsonContentLoader());
+            var spriteSheet = Content.Load<SpriteSheet>("Spritesheets/pacman-main.sf", new JsonContentLoader());
             mainSpritesheet = new AnimatedSprite(spriteSheet);
 
             player = new Player(
@@ -133,6 +134,18 @@ namespace Pacman
             );
 
             #endregion
+
+            #region ghosts
+
+            _ghostGang = new GhostGang(
+                new Texture2D(GraphicsDevice, (int)playerStartPositionObj.Size.Width, (int)playerStartPositionObj.Size.Height),
+                Content,
+                new Vector2(1, 1),
+                extendedMap,
+                transitions
+            );
+
+            #endregion
         }
 
         protected override void Update(GameTime gameTime)
@@ -142,6 +155,7 @@ namespace Pacman
 
             tiledMapRenderer.Update(gameTime);
             player.Update(gameTime);
+            _ghostGang.Update(gameTime);
 
             CheckCoinIntersection(player);
             CheckRubyIntersection(player);
@@ -161,6 +175,7 @@ namespace Pacman
             DrawRubies();
 
             player.Draw(spriteBatch);
+            _ghostGang.Draw(spriteBatch);
 
             spriteBatch.End();
 
@@ -169,27 +184,27 @@ namespace Pacman
 
         private void DrawCoins()
         {
-            for (int i = 0; i < coins.Count; i++)
+            for (int i = 0; i < _coins.Count; i++)
             {
-                coins[i].Draw(spriteBatch);
+                _coins[i].Draw(spriteBatch);
             }
         }
 
         private void DrawRubies()
         {
-            for (int i = 0; i < rubies.Count; i++)
+            for (int i = 0; i < _rubies.Count; i++)
             {
-                rubies[i].Draw(spriteBatch);
+                _rubies[i].Draw(spriteBatch);
             }
         }
 
         private void CheckCoinIntersection(Player player)
         {
-            for (int i = 0; i < coins.Count; i++)
+            for (int i = 0; i < _coins.Count; i++)
             {
-                if (coins[i].IsIntesectsWithPlayer(player))
+                if (_coins[i].IsIntesectsWithPlayer(player))
                 {
-                    coins.RemoveAt(i);
+                    _coins.RemoveAt(i);
                     return;
                 }
             }
@@ -197,11 +212,11 @@ namespace Pacman
 
         private void CheckRubyIntersection(Player player)
         {
-            for (int i = 0; i < rubies.Count; i++)
+            for (int i = 0; i < _rubies.Count; i++)
             {
-                if (rubies[i].IsIntesectsWithPlayer(player))
+                if (_rubies[i].IsIntesectsWithPlayer(player))
                 {
-                    rubies.RemoveAt(i);
+                    _rubies.RemoveAt(i);
                     return;
                 }
             }

@@ -5,7 +5,9 @@ using MonoGame.Extended.Content;
 using MonoGame.Extended.Serialization;
 using MonoGame.Extended.Sprites;
 using MonoGame.Extended.Tiled;
+using Pacman.Source.Abstract;
 using Pacman.Source.Enum;
+using Pacman.Source.Models.Ghosts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +21,7 @@ namespace Pacman.Source.Models
     {
         private readonly Ghost[] _ghosts;
         private readonly TiledMapObjectLayer _ghostSpawn;
+        private readonly TiledMapObjectLayer _scatterPoints;
 
         private readonly GhostAnimationCall _animationNamesBlue;
         private readonly GhostAnimationCall _animationNamesYellow;
@@ -31,12 +34,13 @@ namespace Pacman.Source.Models
             Texture2D texture,
             ContentManager contentManager,
             Vector2 velocity,
-            TiledMap map,
+            Map map,
             Transitions transitions
         )
         {
-            _ghostSpawn = map.ObjectLayers.Single(x => x.Name.Equals("ghost-spawn-area"));
-            
+            _ghostSpawn = map.TiledMap.ObjectLayers.Single(x => x.Name.Equals("ghost-spawn-area"));
+            _scatterPoints = map.TiledMap.ObjectLayers.Single(x => x.Name.Equals("scatter-points"));
+
             _animationNamesRed = new GhostAnimationCall()
             {
                 ConsumedLeft = "ghost-consumed-move-left",
@@ -89,7 +93,7 @@ namespace Pacman.Source.Models
                 Up = "ghost-green-move-up",
             };
 
-            var redAnimation = new AnimatedSprite(contentManager.Load<SpriteSheet>("Spritesheets/pacman-ghost-red.sf", new JsonContentLoader()));
+            /*var redAnimation = new AnimatedSprite(contentManager.Load<SpriteSheet>("Spritesheets/pacman-ghost-red.sf", new JsonContentLoader()));
             Ghost red = new Ghost(
                 texture,
                 _ghostSpawn.Objects.Single().Position + redAnimation.Origin + new Vector2(redAnimation.Origin.X * 2, 0) * 0,
@@ -98,20 +102,21 @@ namespace Pacman.Source.Models
                 velocity,
                 map,
                 transitions
-            );
+            );*/
 
             var blueAnimation = new AnimatedSprite(contentManager.Load<SpriteSheet>("Spritesheets/pacman-ghost-blue.sf", new JsonContentLoader()));
-            Ghost blue = new Ghost(
+            BlueGhost blue = new BlueGhost(
                 texture,
                 _ghostSpawn.Objects.Single().Position + blueAnimation.Origin + new Vector2(blueAnimation.Origin.X * 2, 0) * 1,
                 blueAnimation,
                 _animationNamesBlue,
                 velocity,
                 map,
+                _scatterPoints.Objects.Single(x => x.Name.Equals("blue-ghost-scatter-point")).Position, // do i need apply offset? origin
                 transitions
             );
 
-            var yellowAnimation = new AnimatedSprite(contentManager.Load<SpriteSheet>("Spritesheets/pacman-ghost-yellow.sf", new JsonContentLoader()));
+            /*var yellowAnimation = new AnimatedSprite(contentManager.Load<SpriteSheet>("Spritesheets/pacman-ghost-yellow.sf", new JsonContentLoader()));
             Ghost yellow = new Ghost(
                 texture,
                 _ghostSpawn.Objects.Single().Position + yellowAnimation.Origin + new Vector2(yellowAnimation.Origin.X * 2, 0) * 2,
@@ -120,9 +125,9 @@ namespace Pacman.Source.Models
                 velocity,
                 map,
                 transitions
-            );
+            );*/
 
-            var greenAnimation = new AnimatedSprite(contentManager.Load<SpriteSheet>("Spritesheets/pacman-ghost-green.sf", new JsonContentLoader()));
+            /*var greenAnimation = new AnimatedSprite(contentManager.Load<SpriteSheet>("Spritesheets/pacman-ghost-green.sf", new JsonContentLoader()));
             Ghost green = new Ghost(
                 texture,
                 _ghostSpawn.Objects.Single().Position + greenAnimation.Origin + new Vector2(greenAnimation.Origin.X * 2, 0) * 3,
@@ -131,15 +136,17 @@ namespace Pacman.Source.Models
                 velocity,
                 map,
                 transitions
-            );
+            );*/
 
             _ghosts = new Ghost[]
             {
-                red, 
+                //red, 
                 blue, 
-                yellow, 
-                green
-            };            
+                //yellow, 
+                //green
+            };
+
+            SetGhostPhase(GhostPhase.Scatter);
         }
 
         public void Update(GameTime gameTime)
@@ -156,6 +163,14 @@ namespace Pacman.Source.Models
             foreach (var ghost in _ghosts)
             {
                 ghost.Draw(spriteBatch);
+            }
+        }
+
+        private void SetGhostPhase(GhostPhase ghostPhase)
+        {
+            foreach (var ghost in _ghosts)
+            {
+                ghost.GhostPhase = ghostPhase;
             }
         }
     }

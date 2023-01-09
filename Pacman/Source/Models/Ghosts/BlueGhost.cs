@@ -3,44 +3,54 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Sprites;
 using MonoGame.Extended.Tiled;
 using Pacman.Source.Abstract;
-using Pacman.Source.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Pacman.Source.Models
+namespace Pacman.Source.Models.Ghosts
 {
-    public class Ghost : Abstract.Sprite
+    public class BlueGhost : Ghost
     {
-        private readonly AnimatedSprite _animation;
-        private readonly GhostAnimationCall _animationNames;
+        private readonly AStarProcessor _astarProcessor;
+        private readonly (int, int) _scatterPosition;
 
-        private Direction direction = Direction.None;
-
-        public Ghost(
-            Texture2D texture, 
+        public BlueGhost(
+            Texture2D texture,
             Vector2 position,
             AnimatedSprite animatedSprite,
             GhostAnimationCall animationNames,
             Vector2 velocity,
-            TiledMap map,
+            Map map,
+            Vector2 scatterPosition,
             Transitions transitions) 
-            : base(texture, position)
+            : base(
+                  texture, 
+                  position, 
+                  animatedSprite, 
+                  animationNames, 
+                  velocity, 
+                  map, 
+                  transitions)
+
         {
-            _animation = animatedSprite;
-            _animationNames = animationNames;
+            Name = "Bashful";
+            _astarProcessor = new AStarProcessor(map.MatrixMap);
         }
 
-        public Vector2 Velocity { get; set; }
+        public override string Name { get; init; }
 
-        public GhostPhase GhostPhase { get; set; }
+        public (int, int) PositionMatrix
+        {
+            get => ((int)Position.X / Width, (int)Position.Y / Height);
+        }
 
         public override void Update(GameTime gameTime)
         {
             var deltaSeconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
+            _astarProcessor.Process(_scatterPosition, PositionMatrix);
             Move();
 
             _animation.Play(_animationNames.Left);
@@ -52,26 +62,26 @@ namespace Pacman.Source.Models
             spriteBatch.Draw(_animation, Position, 0);
         }
 
-        private void Move()
+        protected override void Move()
         {
-            switch(GhostPhase)
+            switch (GhostPhase)
             {
-                case GhostPhase.Scatter:
+                case Enum.GhostPhase.Scatter:
                     {
 
                     }
                     break;
-                case GhostPhase.Chase:
+                case Enum.GhostPhase.Chase:
                     {
 
                     }
                     break;
-                case GhostPhase.Frightened:
+                case Enum.GhostPhase.Frightened:
                     {
 
                     }
                     break;
             }
-        }
+}
     }
 }

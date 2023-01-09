@@ -148,7 +148,11 @@ namespace Pacman
                 new Texture2D(GraphicsDevice, (int)playerStartPositionObj.Size.Width, (int)playerStartPositionObj.Size.Height),
                 Content,
                 new Vector2(1, 1),
-                extendedMap,
+                new Map()
+                {
+                    TiledMap = extendedMap,
+                    MatrixMap = mapMatrix,
+                },
                 transitions
             );
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Autofac.Builder;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Sprites;
 using MonoGame.Extended.Tiled;
@@ -13,8 +14,11 @@ namespace Pacman.Source.Models.Ghosts
 {
     public class BlueGhost : Ghost
     {
+        private readonly Map _map;
         private readonly AStarProcessor _astarProcessor;
         private readonly (int, int) _scatterPosition;
+
+        private (int, int) _stepScatterPosition;
 
         public BlueGhost(
             Texture2D texture,
@@ -36,7 +40,10 @@ namespace Pacman.Source.Models.Ghosts
 
         {
             Name = "Bashful";
+            _map = map;
             _astarProcessor = new AStarProcessor(map.MatrixMap);
+            _scatterPosition = ((int)scatterPosition.X / map.TiledMap.TileWidth, (int)scatterPosition.Y / map.TiledMap.TileHeight);
+            _stepScatterPosition = PositionMatrix;
         }
 
         public override string Name { get; init; }
@@ -50,7 +57,9 @@ namespace Pacman.Source.Models.Ghosts
         {
             var deltaSeconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            _astarProcessor.Process(_scatterPosition, PositionMatrix);
+            if (IsPositionFitsStepScatterPosition())
+                _stepScatterPosition = _astarProcessor.Process(_scatterPosition, PositionMatrix);
+
             Move();
 
             _animation.Play(_animationNames.Left);
@@ -68,7 +77,15 @@ namespace Pacman.Source.Models.Ghosts
             {
                 case Enum.GhostPhase.Scatter:
                     {
+                        if (IsPositionFitsStepScatterPosition())
+                            break;
 
+                        Vector2 direction = new Vector2(
+                            Math.Sign(_stepScatterPosition.Item1 * _map.TiledMap.TileWidth - PositionMatrix.Item1 * _map.TiledMap.TileWidth) * Velocity.X,
+                            Math.Sign(_stepScatterPosition.Item2 * _map.TiledMap.TileHeight - PositionMatrix.Item2 * _map.TiledMap.TileHeight) * Velocity.Y
+                        );
+
+                        Position += direction;
                     }
                     break;
                 case Enum.GhostPhase.Chase:
@@ -82,6 +99,10 @@ namespace Pacman.Source.Models.Ghosts
                     }
                     break;
             }
-}
+        }
+
+        private bool IsPositionFitsStepScatterPosition() =>
+            Position.X == _stepScatterPosition.Item1 * _map.TiledMap.TileWidth &&
+            Position.Y == _stepScatterPosition.Item2 * _map.TiledMap.TileHeight;
     }
 }

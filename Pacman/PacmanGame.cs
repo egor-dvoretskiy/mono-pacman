@@ -9,7 +9,9 @@ using MonoGame.Extended.Tiled.Renderers;
 using Pacman.Source.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Text;
 
 namespace Pacman
 {
@@ -65,6 +67,7 @@ namespace Pacman
             tiledMapRenderer = new TiledMapRenderer(GraphicsDevice, extendedMap);
             mapMatrix = new int[extendedMap.Width, extendedMap.Height];
             FillMapMatrix();
+            PrintMatrixMap(mapMatrix);
 
             #endregion
 
@@ -250,11 +253,28 @@ namespace Pacman
                 {
                     for (int j2 = 0; j2 < obj.Size.Height / extendedMap.TileHeight; j2++)
                     {
-                        mapMatrix[j + j2, i + i2] = 1;
+                        mapMatrix[i + i2, j + j2] = 1;
                     }
                 }
 
             }
+        }
+
+        private void PrintMatrixMap(int[,] map)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            for (int i = 0; i < map.GetLength(0); i++)
+            {
+                for (int j = 0; j < map.GetLength(1); j++)
+                {
+                    stringBuilder.Append(map[j, i]);
+                    stringBuilder.Append(" ");
+                }
+                stringBuilder.AppendLine();
+            }
+
+            Debug.Print(stringBuilder.ToString());
         }
     }
 }

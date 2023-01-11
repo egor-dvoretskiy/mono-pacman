@@ -33,6 +33,7 @@ namespace Pacman.Source.Abstract
             _animation = animatedSprite;
             _animationNames = animationNames;
             _map = map;
+            Velocity = velocity;
         }
 
         public Vector2 Velocity { get; set; }

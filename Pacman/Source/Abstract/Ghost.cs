@@ -17,8 +17,10 @@ namespace Pacman.Source.Abstract
         protected readonly AnimatedSprite _animation;
         protected readonly GhostAnimationCall _animationNames;
         protected readonly Map _map;
+        protected readonly IEnumerable<(int, int)> _patrolZone;
 
         protected Direction direction = Direction.None;
+        protected GhostMode ghostMode = GhostMode.None;
 
         public Ghost(
             Texture2D texture,
@@ -27,11 +29,13 @@ namespace Pacman.Source.Abstract
             GhostAnimationCall animationNames,
             Vector2 velocity,
             Map map,
+            IEnumerable<(int, int)> patrolZone,
             Transitions transitions)
             : base(texture, position)
         {
             _animation = animatedSprite;
             _animationNames = animationNames;
+            _patrolZone = patrolZone;
             _map = map;
             Velocity = velocity;
         }

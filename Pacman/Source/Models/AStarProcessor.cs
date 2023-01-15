@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,23 +18,27 @@ namespace Pacman.Source.Models
             _map = map;
         }
 
-        public (int, int) Process((int, int) target, (int, int) position)
+        public LinkedList<NodeAStar> FindScatterPath((int, int) target, (int, int) position)
         {
-            List<NodeAStar> wayPoints = new List<NodeAStar>() {
-                new NodeAStar() {
-                    Position = position,
-                    EuristicApproach = CalculateEuristicApproach(position, target),
-                    StepApproach = 0
-                }
-            };
-
-            List<NodeAStar> closedNodes = AssignCloseNodes(wayPoints.Last().Position, target); // add ghost-spawn to closed nodes;
-            //List<NodeAStar> openedNodes = new List<NodeAStar>();
-            int stepAmount = 0;
-            while (wayPoints[^1].Position != target)
+            LinkedList<NodeAStar> waypointsLinked = new LinkedList<NodeAStar>();
+            waypointsLinked.AddLast(new NodeAStar()
             {
-                List<NodeAStar> openedNodes = AssignOpenNodes(wayPoints[^1].Position, target, closedNodes);
-                AddNodeToClosed(wayPoints[^1], ref closedNodes, ref openedNodes);
+                Position = position,
+                EuristicApproach = CalculateEuristicApproach(position, target),
+                StepApproach = 0
+            });
+
+            List<NodeAStar> closedNodes = AssignCloseNodes(waypointsLinked.Last.Value.Position, target); // add ghost-spawn to closed nodes;
+            //
+            // infinite loop when target if no opened nodes assigned.
+            int stepAmount = 0;
+            while (waypointsLinked.Last.Value.Position != target)
+            {
+                List<NodeAStar> openedNodes = AssignOpenNodes(waypointsLinked.Last.Value.Position, target, closedNodes);
+                AddNodeToClosed(waypointsLinked.Last.Value, ref closedNodes, ref openedNodes);
+
+                if (openedNodes.Count == 0)
+                    closedNodes.RemoveAt(0);
 
                 while (openedNodes.Count > 0)
                 {
@@ -45,13 +50,21 @@ namespace Pacman.Source.Models
                         continue;
                     }
 
-                    wayPoints.Add(node);
+                    waypointsLinked.AddLast(node);
                     break;
                 }
                 stepAmount++;
             }
 
-            return wayPoints.Count < 2 ? position : wayPoints[1].Position;
+            if (waypointsLinked.Count < 2)
+                return null;
+
+            return waypointsLinked;
+        }
+
+        private void CheckHooks(ref List<NodeAStar> nodes)
+        {
+
         }
 
         private void AddNodeToClosed(NodeAStar node, ref List<NodeAStar> closedNodes, ref List<NodeAStar> openedNodes)

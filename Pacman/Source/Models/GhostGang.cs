@@ -20,6 +20,7 @@ namespace Pacman.Source.Models
     public class GhostGang
     {
         private readonly Ghost[] _ghosts;
+        private readonly Map _map;
         private readonly TiledMapObjectLayer _ghostSpawn;
         private readonly TiledMapObjectLayer _scatterPoints;
 
@@ -27,6 +28,8 @@ namespace Pacman.Source.Models
         private readonly GhostAnimationCall _animationNamesYellow;
         private readonly GhostAnimationCall _animationNamesRed;
         private readonly GhostAnimationCall _animationNamesGreen;
+
+        private readonly int _patrolScatterRadius = 6;
 
         private GhostPhase ghostPhase = GhostPhase.Scatter;
 
@@ -38,6 +41,7 @@ namespace Pacman.Source.Models
             Transitions transitions
         )
         {
+            _map = map;
             _ghostSpawn = map.TiledMap.ObjectLayers.Single(x => x.Name.Equals("ghost-spawn-area"));
             _scatterPoints = map.TiledMap.ObjectLayers.Single(x => x.Name.Equals("scatter-points"));
 
@@ -105,6 +109,7 @@ namespace Pacman.Source.Models
             );*/
 
             var blueAnimation = new AnimatedSprite(contentManager.Load<SpriteSheet>("Spritesheets/pacman-ghost-blue.sf", new JsonContentLoader()));
+            var blueScatterPosition = _scatterPoints.Objects.Single(x => x.Name.Equals("blue-ghost-scatter-point")).Position;
             BlueGhost blue = new BlueGhost(
                 texture,
                 _ghostSpawn.Objects.Single().Position + blueAnimation.Origin + new Vector2(blueAnimation.Origin.X * 2, 0) * 1,
@@ -112,7 +117,8 @@ namespace Pacman.Source.Models
                 _animationNamesBlue,
                 velocity,
                 map,
-                _scatterPoints.Objects.Single(x => x.Name.Equals("blue-ghost-scatter-point")).Position, // do i need apply offset? origin
+                CalculatePatrolZone(blueScatterPosition),
+                blueScatterPosition, // do i need apply offset? origin
                 transitions
             );
 
@@ -172,6 +178,33 @@ namespace Pacman.Source.Models
             {
                 ghost.GhostPhase = ghostPhase;
             }
+        }
+
+        private IEnumerable<(int, int)> CalculatePatrolZone(Vector2 referencePoint)
+        {
+            List<(int, int)> patrolZone = new List<(int, int)> ();
+
+            var iborders = CalculateBorders((int)referencePoint.X / _map.TiledMap.TileWidth, 0, _map.MatrixMap.GetLength(0));
+            var jborders = CalculateBorders((int)referencePoint.Y / _map.TiledMap.TileHeight, 0, _map.MatrixMap.GetLength(1));
+
+            for (int i = iborders.Item1; i <= iborders.Item2; i++)
+            {
+                for (int j = jborders.Item1; j < jborders.Item2; j++)
+                {
+                    if (_map.MatrixMap[i, j] == 0)
+                        patrolZone.Add((i, j));
+                }
+            }
+
+            return patrolZone;
+        }
+
+        private (int, int) CalculateBorders(int pure, int limitX, int limitY)
+        {
+            int bottomBorder = pure - _patrolScatterRadius < limitX ? limitX : pure - _patrolScatterRadius;
+            int upperBorder = pure + _patrolScatterRadius > limitY ? limitY - 1 : pure + _patrolScatterRadius;
+
+            return (bottomBorder, upperBorder);
         }
     }
 }

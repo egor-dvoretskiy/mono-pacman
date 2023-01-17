@@ -21,6 +21,7 @@ namespace Pacman.Source.Abstract
 
         protected Direction direction = Direction.None;
         protected GhostMode ghostMode = GhostMode.None;
+        protected Vector2 latestPlayerPosition;
 
         public Ghost(
             Texture2D texture,
@@ -44,8 +45,15 @@ namespace Pacman.Source.Abstract
 
         public GhostPhase GhostPhase { get; set; }
 
+        public GhostPhase PreviousGhostPhase { get; set; }
+
         public abstract string Name { get; init; }
 
         protected abstract void Move();
+
+        public virtual void UpdatePlayerPosition(Vector2 playerPosition)
+        {
+            latestPlayerPosition = playerPosition;
+        }
     }
 }

@@ -18,6 +18,7 @@ namespace Pacman.Source.Models.Ghosts
         private readonly Map _map;
         private readonly AStarProcessor _astarProcessor;
         private readonly (int, int) _scatterPosition;
+        private readonly TiledMapObjectLayer _restrictedWays;
 
         private string currentAnimation;
         private (int, int) _stepScatterPosition;
@@ -47,11 +48,15 @@ namespace Pacman.Source.Models.Ghosts
                   transitions)
 
         {
+
+            /// Add to matrix map more numbers to avoid visiting transition tiles by ghosts.
+
             Name = "Bashful";
             _map = map; 
             _astarProcessor = new AStarProcessor(map.MatrixMap);
             _scatterPosition = ((int)scatterPosition.X / map.TiledMap.TileWidth, (int)scatterPosition.Y / map.TiledMap.TileHeight);
             _stepScatterPosition = PositionMatrix;
+            _restrictedWays = map.TiledMap.ObjectLayers.Single(x => x.Name.Equals("map-restricted"));
 
             currentAnimation = _animationNames.Up;
         }
@@ -146,10 +151,92 @@ namespace Pacman.Source.Models.Ghosts
                     break;
                 case Enum.GhostPhase.Frightened:
                     {
+                        List<(Vector2, Vector2)> localWays = FoundPossibleFrightenedWays(); // (velocity, point)
 
+                        if (localWays == null || localWays.Count == 0)
+                            break;
+
+                        (Vector2, Vector2) nextPointTuple = FoundFarestWayByEuristicSearch(localWays); // search for the next point
+
+                        Position = nextPointTuple.Item2;
+                        AssignDirection(nextPointTuple.Item1);
                     }
                     break;
             }
+        }
+        private (Vector2, Vector2) FoundFarestWayByEuristicSearch(List<(Vector2, Vector2)> localVelocities)
+        {
+            List<int> localDistances = new List<int> ();
+            int farestWayIndex = 0;
+            int biggestEuristicDistance = 0;
+            for (int i = 0; i < localVelocities.Count; i++)
+            {
+                int currentEuristicApproach = CalculateEuristicDistance(latestPlayerPosition, localVelocities[i].Item2);
+                if (currentEuristicApproach > biggestEuristicDistance)
+                {
+                    localDistances.Clear();
+
+                    farestWayIndex = i;
+                    biggestEuristicDistance = currentEuristicApproach;
+                    localDistances.Add(i);
+                    continue;
+                }
+
+                if (currentEuristicApproach == biggestEuristicDistance)
+                    localDistances.Add(i);
+            }
+
+            return localVelocities[localDistances[Random.Shared.Next(localDistances.Count)]];
+        }
+
+        private int CalculateEuristicDistance(Vector2 point1, Vector2 point2)
+        {
+            var xapproach = Math.Abs(point2.X - point1.X);
+            var yapproach = Math.Abs(point1.Y - point2.Y);
+
+            return (int)(xapproach + yapproach);
+        }
+
+        private List<(Vector2, Vector2)> FoundPossibleFrightenedWays()
+        {
+            List<(Vector2, Vector2)> ways = new List<(Vector2, Vector2)>();
+            var localPosition = Position;
+
+            Vector2 velocityY = new Vector2(0, Velocity.Y);
+            Vector2 velocityX = new Vector2(Velocity.X, 0);
+
+            Vector2 localPositionUp = localPosition - velocityY;
+            if (!IsInRestrictedArea(localPositionUp))
+                ways.Add((-velocityY, localPositionUp));
+
+            Vector2 localPositionLeft = localPosition - velocityX;
+            if (!IsInRestrictedArea(localPositionLeft))
+                ways.Add((-velocityX, localPositionLeft));
+
+            Vector2 localPositionDown = localPosition + velocityY;
+            if (!IsInRestrictedArea(localPositionDown))
+                ways.Add((velocityY, localPositionDown));
+
+            Vector2 localPositionRight = localPosition + velocityX;
+            if (!IsInRestrictedArea(localPositionRight))
+                ways.Add((velocityX, localPositionRight));
+
+            return ways;
+        }
+
+        private bool IsInRestrictedArea(Vector2 position)
+        {
+            for (int i = 0; i < _restrictedWays.Objects.Length; i++)
+            {
+                var currentTiledObject = _restrictedWays.Objects[i];
+                var restrictedRectIteration = new Rectangle((int)currentTiledObject.Position.X, (int)currentTiledObject.Position.Y, (int)currentTiledObject.Size.Width, (int)currentTiledObject.Size.Height);
+                var currentRectPosition = new Rectangle((int)(position.X - _animation.Origin.X), (int)(position.Y - _animation.Origin.Y), Width, Height);
+
+                if (currentRectPosition.Intersects(restrictedRectIteration))
+                    return true;
+            }
+
+            return false;
         }
 
         private bool IsPositionFitsStepScatterPosition() =>
@@ -166,28 +253,32 @@ namespace Pacman.Source.Models.Ghosts
 
         private void AssignAnimation()
         {
-            if (direction == Enum.Direction.Up)
+            switch(direction)
             {
-                currentAnimation = _animationNames.Up;
-                return;
-            }
-
-            if (direction == Enum.Direction.Down)
-            {
-                currentAnimation = _animationNames.Down;
-                return;
-            }
-
-            if (direction == (Direction.Left | Direction.None))
-            {
-                currentAnimation = _animationNames.Left;
-                return;
-            }
-
-            if (direction == Enum.Direction.Right)
-            {
-                currentAnimation = _animationNames.Right;
-                return;
+                case Direction.Up when GhostPhase != GhostPhase.Frightened:
+                    currentAnimation = _animationNames.Up;
+                    return;
+                case Direction.Down when GhostPhase != GhostPhase.Frightened:
+                    currentAnimation = _animationNames.Down;
+                    return;
+                case Direction.Left | Direction.None when GhostPhase != GhostPhase.Frightened:
+                    currentAnimation = _animationNames.Left;
+                    return;
+                case Direction.Right when GhostPhase != GhostPhase.Frightened:
+                    currentAnimation = _animationNames.Right;
+                    return;
+                case Direction.Up when GhostPhase != (GhostPhase.Scatter | GhostPhase.Chase):
+                    currentAnimation = _animationNames.Vulnerable;
+                    return;
+                case Direction.Down when GhostPhase != (GhostPhase.Scatter | GhostPhase.Chase):
+                    currentAnimation = _animationNames.Vulnerable;
+                    return;
+                case (Direction.Left | Direction.None) when GhostPhase != (GhostPhase.Scatter | GhostPhase.Chase):
+                    currentAnimation = _animationNames.Vulnerable;
+                    return;
+                case Direction.Right when GhostPhase != (GhostPhase.Scatter | GhostPhase.Chase):
+                    currentAnimation = _animationNames.Vulnerable;
+                    return;
             }
         }
 

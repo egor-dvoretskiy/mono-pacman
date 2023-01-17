@@ -34,6 +34,12 @@ namespace Pacman
         private readonly List<MapCollectableObject> _coins;
         private readonly List<MapCollectableObject> _rubies;
 
+        public delegate void RubyIntersectionHandler();
+        public delegate void CoinIntersectionHandler();
+
+        public event RubyIntersectionHandler OnRubyIntersection;
+        public event CoinIntersectionHandler OnCoinIntersection;
+
         public PacmanGame()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -169,7 +175,7 @@ namespace Pacman
 
             tiledMapRenderer.Update(gameTime);
             player.Update(gameTime);
-            _ghostGang.Update(gameTime);
+            _ghostGang.Update(gameTime, player.Position);
 
             CheckCoinIntersection(player);
             CheckRubyIntersection(player);
@@ -230,6 +236,7 @@ namespace Pacman
             {
                 if (_rubies[i].IsIntesectsWithPlayer(player))
                 {
+                    _ghostGang.NotifyDanger();
                     _rubies.RemoveAt(i);
                     return;
                 }

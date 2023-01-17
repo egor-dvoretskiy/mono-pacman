@@ -14,6 +14,7 @@ using System.Linq;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace Pacman.Source.Models
 {
@@ -30,8 +31,10 @@ namespace Pacman.Source.Models
         private readonly GhostAnimationCall _animationNamesGreen;
 
         private readonly int _patrolScatterRadius = 6;
+        private readonly int _frightenedTime = 200000;
+        private readonly Timer _timer;
 
-        private GhostPhase ghostPhase = GhostPhase.Scatter;
+        //private GhostPhase ghostPhase = GhostPhase.Scatter;
 
         public GhostGang(
             Texture2D texture,
@@ -44,6 +47,13 @@ namespace Pacman.Source.Models
             _map = map;
             _ghostSpawn = map.TiledMap.ObjectLayers.Single(x => x.Name.Equals("ghost-spawn-area"));
             _scatterPoints = map.TiledMap.ObjectLayers.Single(x => x.Name.Equals("scatter-points"));
+            _timer = new Timer()
+            {
+                AutoReset = false,
+                Enabled = false,
+                Interval = _frightenedTime,                
+            };
+            _timer.Elapsed += Timer_Elapsed;
 
             _animationNamesRed = new GhostAnimationCall()
             {
@@ -155,12 +165,13 @@ namespace Pacman.Source.Models
             SetGhostPhase(GhostPhase.Scatter);
         }
 
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, Vector2 playerPosition)
         {
             foreach (var ghost in _ghosts)
             {
-                ghost.GhostPhase = ghostPhase;
+                //ghost.GhostPhase = ghostPhase;
                 ghost.Update(gameTime);
+                ghost.UpdatePlayerPosition(playerPosition);
             }
         }
 
@@ -169,6 +180,25 @@ namespace Pacman.Source.Models
             foreach (var ghost in _ghosts)
             {
                 ghost.Draw(spriteBatch);
+            }
+        }
+
+        public void NotifyDanger()
+        {
+            _timer.Start();
+
+            foreach (var ghost in _ghosts)
+            {
+                ghost.PreviousGhostPhase = ghost.GhostPhase;
+                ghost.GhostPhase = GhostPhase.Frightened;
+            }
+        }
+
+        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            foreach (var ghost in _ghosts)
+            {
+                ghost.GhostPhase = ghost.PreviousGhostPhase;
             }
         }
 

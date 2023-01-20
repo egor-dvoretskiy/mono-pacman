@@ -15,6 +15,11 @@ namespace Pacman.Source.Models
 
         public Size2 Size { get; set; }
 
+        public Rectangle Rectangle
+        {
+            get => new Rectangle((int)Position.X, (int)Position.Y, (int)Size.Width, (int)Size.Height);
+        }
+
         public Direction Direction { get; set; }
     }
 }

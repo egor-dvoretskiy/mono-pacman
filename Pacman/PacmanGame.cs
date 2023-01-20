@@ -105,22 +105,6 @@ namespace Pacman
             var topTransition = mapTransitionsLayer.Objects.Single(x => x.Name.Equals("top"));
             var downTransition = mapTransitionsLayer.Objects.Single(x => x.Name.Equals("down"));
 
-            transitions = new Transitions()
-            {
-                Top = new Transition()
-                {
-                    Direction = Source.Enum.Direction.Up,
-                    Position = topTransition.Position + new Vector2(topTransition.Size.Width / 2, topTransition.Size.Height / 2 - topTransition.Size.Height + 1),
-                    Size = topTransition.Size
-                },
-                Down = new Transition()
-                {
-                    Direction = Source.Enum.Direction.Down,
-                    Position = downTransition.Position + new Vector2(downTransition.Size.Width / 2, downTransition.Size.Height / 2 + downTransition.Size.Height - 1),
-                    Size = downTransition.Size
-                },
-            };
-
             #endregion
 
             #region player
@@ -146,7 +130,21 @@ namespace Pacman
                 mainSpritesheet,
                 new Vector2(1, 1),
                 extendedMap,
-                transitions
+                new Transitions()
+                {
+                    Top = new Transition()
+                    {
+                        Direction = Source.Enum.Direction.Up,
+                        Position = topTransition.Position + new Vector2(topTransition.Size.Width / 2, topTransition.Size.Height / 2 - topTransition.Size.Height/* + 1*/),
+                        Size = topTransition.Size
+                    },
+                    Down = new Transition()
+                    {
+                        Direction = Source.Enum.Direction.Down,
+                        Position = downTransition.Position + new Vector2(downTransition.Size.Width / 2, downTransition.Size.Height / 2 + downTransition.Size.Height/* - 1*/),
+                        Size = downTransition.Size
+                    },
+                }
             );
 
             #endregion
@@ -162,7 +160,21 @@ namespace Pacman
                     TiledMap = extendedMap,
                     MatrixMap = mapMatrix,
                 },
-                transitions
+                new Transitions()
+                {
+                    Top = new Transition()
+                    {
+                        Direction = Source.Enum.Direction.Up,
+                        Position = topTransition.Position,
+                        Size = topTransition.Size
+                    },
+                    Down = new Transition()
+                    {
+                        Direction = Source.Enum.Direction.Down,
+                        Position = downTransition.Position,
+                        Size = downTransition.Size
+                    },
+                }
             );
 
             #endregion
@@ -252,7 +264,7 @@ namespace Pacman
                 int i = (int)position.X / extendedMap.TileWidth;
                 int j = (int)position.Y / extendedMap.TileHeight;
 
-                if (obj.Name.Equals("ghost-entrance-1") || obj.Name.Equals("ghost-entrance-2"))
+                if (obj.Name.Equals("ghost-entrance"))
                     continue;
 
                 //pzdc, i know

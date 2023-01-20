@@ -22,13 +22,12 @@ namespace Pacman.Source.Models
     {
         private readonly Ghost[] _ghosts;
         private readonly Map _map;
-        private readonly TiledMapObjectLayer _ghostSpawn;
         private readonly TiledMapObjectLayer _scatterPoints;
 
         private readonly GhostAnimationCall _animationNamesBlue;
-        private readonly GhostAnimationCall _animationNamesYellow;
+        private readonly GhostAnimationCall _animationNamesOrange;
         private readonly GhostAnimationCall _animationNamesRed;
-        private readonly GhostAnimationCall _animationNamesGreen;
+        private readonly GhostAnimationCall _animationNamesPink;
 
         private readonly int _patrolScatterRadius = 6;
         private readonly int _frightenedTime = 200000;
@@ -45,7 +44,6 @@ namespace Pacman.Source.Models
         )
         {
             _map = map;
-            _ghostSpawn = map.TiledMap.ObjectLayers.Single(x => x.Name.Equals("ghost-spawn-area"));
             _scatterPoints = map.TiledMap.ObjectLayers.Single(x => x.Name.Equals("scatter-points"));
             _timer = new Timer()
             {
@@ -81,48 +79,51 @@ namespace Pacman.Source.Models
                 Up = "ghost-blue-move-up",
             };
 
-            _animationNamesYellow = new GhostAnimationCall()
+            _animationNamesOrange = new GhostAnimationCall()
             {
                 ConsumedLeft = "ghost-consumed-move-left",
                 ConsumedDown = "ghost-consumed-move-down",
                 ConsumedRight = "ghost-consumed-move-right",
                 ConsumedUp = "ghost-consumed-move-up",
-                Vulnerable = "ghost-yellow-vulnerable",
-                Left = "ghost-yellow-move-left",
-                Right = "ghost-yellow-move-right",
-                Down = "ghost-yellow-move-down",
-                Up = "ghost-yellow-move-up",
+                Vulnerable = "ghost-orange-vulnerable",
+                Left = "ghost-orange-move-left",
+                Right = "ghost-orange-move-right",
+                Down = "ghost-orange-move-down",
+                Up = "ghost-orange-move-up",
             };
 
-            _animationNamesGreen = new GhostAnimationCall()
+            _animationNamesPink = new GhostAnimationCall()
             {
                 ConsumedLeft = "ghost-consumed-move-left",
                 ConsumedDown = "ghost-consumed-move-down",
                 ConsumedRight = "ghost-consumed-move-right",
                 ConsumedUp = "ghost-consumed-move-up",
-                Vulnerable = "ghost-green-vulnerable",
-                Left = "ghost-green-move-left",
-                Right = "ghost-green-move-right",
-                Down = "ghost-green-move-down",
-                Up = "ghost-green-move-up",
+                Vulnerable = "ghost-pink-vulnerable",
+                Left = "ghost-pink-move-left",
+                Right = "ghost-pink-move-right",
+                Down = "ghost-pink-move-down",
+                Up = "ghost-pink-move-up",
             };
 
-            /*var redAnimation = new AnimatedSprite(contentManager.Load<SpriteSheet>("Spritesheets/pacman-ghost-red.sf", new JsonContentLoader()));
-            Ghost red = new Ghost(
+            var redAnimation = new AnimatedSprite(contentManager.Load<SpriteSheet>("Spritesheets/pacman-ghost-red.sf", new JsonContentLoader()));
+            var redScatterPosition = _scatterPoints.Objects.Single(x => x.Name.Equals("red-ghost-scatter-point")).Position;
+            RedGhost red = new RedGhost(
                 texture,
-                _ghostSpawn.Objects.Single().Position + redAnimation.Origin + new Vector2(redAnimation.Origin.X * 2, 0) * 0,
+                map.TiledMap.ObjectLayers.Single(x => x.Name.Equals("red-spawn")).Objects.Single().Position + redAnimation.Origin,
                 redAnimation,
                 _animationNamesRed,
                 velocity,
                 map,
+                CalculatePatrolZone(redScatterPosition),
+                redScatterPosition, // do i need apply offset? origin
                 transitions
-            );*/
+            );
 
             var blueAnimation = new AnimatedSprite(contentManager.Load<SpriteSheet>("Spritesheets/pacman-ghost-blue.sf", new JsonContentLoader()));
             var blueScatterPosition = _scatterPoints.Objects.Single(x => x.Name.Equals("blue-ghost-scatter-point")).Position;
             BlueGhost blue = new BlueGhost(
                 texture,
-                _ghostSpawn.Objects.Single().Position + blueAnimation.Origin + new Vector2(blueAnimation.Origin.X * 2, 0) * 1,
+                map.TiledMap.ObjectLayers.Single(x => x.Name.Equals("blue-spawn")).Objects.Single().Position + blueAnimation.Origin,
                 blueAnimation,
                 _animationNamesBlue,
                 velocity,
@@ -132,34 +133,40 @@ namespace Pacman.Source.Models
                 transitions
             );
 
-            /*var yellowAnimation = new AnimatedSprite(contentManager.Load<SpriteSheet>("Spritesheets/pacman-ghost-yellow.sf", new JsonContentLoader()));
-            Ghost yellow = new Ghost(
+            var pinkAnimation = new AnimatedSprite(contentManager.Load<SpriteSheet>("Spritesheets/pacman-ghost-pink.sf", new JsonContentLoader()));
+            var pinkScatterPosition = _scatterPoints.Objects.Single(x => x.Name.Equals("pink-ghost-scatter-point")).Position;
+            PinkGhost pink = new PinkGhost(
                 texture,
-                _ghostSpawn.Objects.Single().Position + yellowAnimation.Origin + new Vector2(yellowAnimation.Origin.X * 2, 0) * 2,
-                yellowAnimation,
-                _animationNamesYellow,
+                map.TiledMap.ObjectLayers.Single(x => x.Name.Equals("pink-spawn")).Objects.Single().Position + pinkAnimation.Origin,
+                pinkAnimation,
+                _animationNamesPink,
                 velocity,
                 map,
+                CalculatePatrolZone(pinkScatterPosition),
+                pinkScatterPosition, // do i need apply offset? origin
                 transitions
-            );*/
+            );
 
-            /*var greenAnimation = new AnimatedSprite(contentManager.Load<SpriteSheet>("Spritesheets/pacman-ghost-green.sf", new JsonContentLoader()));
-            Ghost green = new Ghost(
+            var orangeAnimation = new AnimatedSprite(contentManager.Load<SpriteSheet>("Spritesheets/pacman-ghost-orange.sf", new JsonContentLoader()));
+            var orangeScatterPosition = _scatterPoints.Objects.Single(x => x.Name.Equals("orange-ghost-scatter-point")).Position;
+            OrangeGhost orange = new OrangeGhost(
                 texture,
-                _ghostSpawn.Objects.Single().Position + greenAnimation.Origin + new Vector2(greenAnimation.Origin.X * 2, 0) * 3,
-                greenAnimation,
-                _animationNamesGreen,
+                map.TiledMap.ObjectLayers.Single(x => x.Name.Equals("orange-spawn")).Objects.Single().Position + orangeAnimation.Origin,
+                orangeAnimation,
+                _animationNamesOrange,
                 velocity,
                 map,
+                CalculatePatrolZone(orangeScatterPosition),
+                orangeScatterPosition, // do i need apply offset? origin
                 transitions
-            );*/
+            );
 
             _ghosts = new Ghost[]
             {
-                //red, 
-                blue, 
-                //yellow, 
-                //green
+                red, 
+                /*blue, 
+                pink,
+                orange*/
             };
 
             SetGhostPhase(GhostPhase.Scatter);
@@ -217,7 +224,7 @@ namespace Pacman.Source.Models
             var iborders = CalculateBorders((int)referencePoint.X / _map.TiledMap.TileWidth, 0, _map.MatrixMap.GetLength(0));
             var jborders = CalculateBorders((int)referencePoint.Y / _map.TiledMap.TileHeight, 0, _map.MatrixMap.GetLength(1));
 
-            for (int i = iborders.Item1; i <= iborders.Item2; i++)
+            for (int i = iborders.Item1; i < iborders.Item2; i++)
             {
                 for (int j = jborders.Item1; j < jborders.Item2; j++)
                 {

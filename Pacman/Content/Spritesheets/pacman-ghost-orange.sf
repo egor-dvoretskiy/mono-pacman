@@ -5,28 +5,28 @@
     "regionHeight": 16
   },
   "cycles": {
-    "ghost-yellow-move-left": {
-      "frames": [108,109],
+    "ghost-orange-move-left": {
+      "frames": [300,301],
       "isLooping": true,
       "frameDuration": 0.2
     },
-    "ghost-yellow-move-up": {
-      "frames": [132,133],
+    "ghost-orange-move-up": {
+      "frames": [324,325],
       "isLooping": true,
       "frameDuration": 0.2
     },
-    "ghost-yellow-move-right": {
-      "frames": [134,135],
+    "ghost-orange-move-right": {
+      "frames": [326,327],
       "isLooping": true,
       "frameDuration": 0.2
     },
-    "ghost-yellow-move-down": {
-      "frames": [110,111],
+    "ghost-orange-move-down": {
+      "frames": [302,303],
       "isLooping": true,
       "frameDuration": 0.2
     },
-    "ghost-yellow-vulnerable": {
-      "frames": [156,157],
+    "ghost-orange-vulnerable": {
+      "frames": [348,349],
       "isLooping": true,
       "frameDuration": 0.2
     },

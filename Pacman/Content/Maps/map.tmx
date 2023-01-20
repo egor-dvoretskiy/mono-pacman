@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="14" nextobjectid="532">
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="18" nextobjectid="579">
  <tileset firstgid="1" name="pacman-tileset" tilewidth="16" tileheight="16" tilecount="80" columns="10">
   <image source="backgroundTiles.png" width="160" height="128"/>
  </tileset>
@@ -66,12 +66,10 @@
   <object id="210" x="288" y="32" width="16" height="16"/>
   <object id="211" x="288" y="48" width="16" height="16"/>
   <object id="212" x="288" y="64" width="16" height="16"/>
-  <object id="213" x="288" y="80" width="16" height="16"/>
   <object id="222" x="176" y="32" width="16" height="16"/>
   <object id="223" x="176" y="48" width="16" height="16"/>
   <object id="224" x="176" y="64" width="16" height="16"/>
   <object id="225" x="176" y="80" width="16" height="16"/>
-  <object id="226" x="64" y="32" width="16" height="16"/>
   <object id="227" x="64" y="48" width="16" height="16"/>
   <object id="228" x="64" y="64" width="16" height="16"/>
   <object id="229" x="64" y="80" width="16" height="16"/>
@@ -86,7 +84,6 @@
   <object id="238" x="64" y="224" width="16" height="16"/>
   <object id="239" x="64" y="240" width="16" height="16"/>
   <object id="240" x="64" y="256" width="16" height="16"/>
-  <object id="241" x="64" y="272" width="16" height="16"/>
   <object id="242" x="64" y="288" width="16" height="16"/>
   <object id="243" x="64" y="304" width="16" height="16"/>
   <object id="244" x="64" y="320" width="16" height="16"/>
@@ -132,10 +129,6 @@
   <object id="284" x="128" y="400" width="16" height="16"/>
   <object id="285" x="128" y="416" width="16" height="16"/>
   <object id="286" x="128" y="432" width="16" height="16"/>
-  <object id="287" x="176" y="192" width="16" height="16"/>
-  <object id="288" x="176" y="208" width="16" height="16"/>
-  <object id="289" x="176" y="224" width="16" height="16"/>
-  <object id="290" x="176" y="240" width="16" height="16"/>
   <object id="291" x="176" y="256" width="16" height="16"/>
   <object id="292" x="176" y="272" width="16" height="16"/>
   <object id="293" x="176" y="288" width="16" height="16"/>
@@ -145,8 +138,6 @@
   <object id="297" x="128" y="144" width="16" height="16"/>
   <object id="298" x="128" y="160" width="16" height="16"/>
   <object id="299" x="128" y="176" width="16" height="16"/>
-  <object id="300" x="128" y="192" width="16" height="16"/>
-  <object id="301" x="128" y="208" width="16" height="16"/>
   <object id="303" x="128" y="240" width="16" height="16"/>
   <object id="304" x="128" y="256" width="16" height="16"/>
   <object id="305" x="128" y="272" width="16" height="16"/>
@@ -179,7 +170,6 @@
   <object id="333" x="320" y="160" width="16" height="16"/>
   <object id="334" x="320" y="176" width="16" height="16"/>
   <object id="335" x="320" y="192" width="16" height="16"/>
-  <object id="336" x="320" y="208" width="16" height="16"/>
   <object id="337" x="320" y="224" width="16" height="16"/>
   <object id="338" x="336" y="224" width="16" height="16"/>
   <object id="339" x="336" y="240" width="16" height="16"/>
@@ -199,7 +189,6 @@
   <object id="353" x="320" y="336" width="16" height="16"/>
   <object id="354" x="320" y="352" width="16" height="16"/>
   <object id="355" x="320" y="368" width="16" height="16"/>
-  <object id="356" x="400" y="320" width="16" height="16"/>
   <object id="357" x="400" y="336" width="16" height="16"/>
   <object id="358" x="400" y="352" width="16" height="16"/>
   <object id="359" x="400" y="368" width="16" height="16"/>
@@ -217,7 +206,6 @@
   <object id="372" x="224" y="352" width="16" height="16"/>
   <object id="373" x="224" y="368" width="16" height="16"/>
   <object id="375" x="208" y="368" width="16" height="16"/>
-  <object id="376" x="208" y="384" width="16" height="16"/>
   <object id="377" x="208" y="400" width="16" height="16"/>
   <object id="378" x="208" y="416" width="16" height="16"/>
   <object id="379" x="208" y="432" width="16" height="16"/>
@@ -351,23 +339,35 @@
   <object id="516" x="96" y="448" width="16" height="16"/>
   <object id="517" x="112" y="448" width="16" height="16"/>
   <object id="527" x="304" y="192" width="16" height="16"/>
+  <object id="563" x="16" y="16" width="16" height="16"/>
+  <object id="564" x="144" y="176" width="16" height="16"/>
+  <object id="565" x="144" y="192" width="16" height="16"/>
+  <object id="566" x="144" y="208" width="16" height="16"/>
+  <object id="567" x="144" y="224" width="16" height="16"/>
+  <object id="568" x="128" y="224" width="16" height="16"/>
+  <object id="569" x="16" y="352" width="16" height="16"/>
+  <object id="570" x="128" y="448" width="16" height="16"/>
+  <object id="571" x="448" y="448" width="16" height="16"/>
+  <object id="572" x="288" y="368" width="16" height="16"/>
+  <object id="573" x="448" y="272" width="16" height="16"/>
+  <object id="574" x="384" y="16" width="16" height="16"/>
+  <object id="576" x="192" y="208" width="16" height="16"/>
+  <object id="577" x="192" y="224" width="16" height="16"/>
+  <object id="578" x="192" y="240" width="16" height="16"/>
  </objectgroup>
  <objectgroup id="13" name="scatter-points">
-  <object id="528" name="green-ghost-scatter-point" x="64" y="64" width="16" height="16"/>
+  <object id="528" name="pink-ghost-scatter-point" x="64" y="64" width="16" height="16"/>
   <object id="529" name="red-ghost-scatter-point" x="384" y="80" width="16" height="16"/>
-  <object id="530" name="yellow-ghost-scatter-point" x="400" y="368" width="16" height="16"/>
+  <object id="530" name="orange-ghost-scatter-point" x="400" y="368" width="16" height="16"/>
   <object id="531" name="blue-ghost-scatter-point" x="64" y="400" width="16" height="16"/>
  </objectgroup>
  <objectgroup id="12" name="rubies" locked="1">
-  <object id="518" x="16" y="16" width="16" height="16"/>
-  <object id="519" x="384" y="16" width="16" height="16"/>
-  <object id="520" x="256" y="160" width="16" height="16"/>
-  <object id="521" x="128" y="224" width="16" height="16"/>
-  <object id="522" x="448" y="272" width="16" height="16"/>
-  <object id="523" x="288" y="368" width="16" height="16"/>
-  <object id="524" x="16" y="352" width="16" height="16"/>
-  <object id="525" x="128" y="448" width="16" height="16"/>
-  <object id="526" x="448" y="448" width="16" height="16"/>
+  <object id="555" x="288" y="80" width="16" height="16"/>
+  <object id="557" x="320" y="208" width="16" height="16"/>
+  <object id="558" x="64" y="272" width="16" height="16"/>
+  <object id="559" x="208" y="384" width="16" height="16"/>
+  <object id="561" x="400" y="320" width="16" height="16"/>
+  <object id="562" x="64" y="32" width="16" height="16"/>
  </objectgroup>
  <objectgroup id="4" name="map-restricted" locked="1">
   <object id="89" x="80" y="0" width="400" height="16"/>
@@ -382,15 +382,10 @@
   <object id="98" x="32" y="368" width="32" height="32"/>
   <object id="99" x="32" y="416" width="32" height="32"/>
   <object id="100" x="80" y="32" width="96" height="32"/>
-  <object id="101" x="80" y="80" width="96" height="32"/>
-  <object id="102" x="144" y="96" width="64" height="32"/>
   <object id="103" x="80" y="128" width="48" height="48"/>
-  <object id="104" x="80" y="192" width="48" height="32"/>
   <object id="105" x="80" y="240" width="48" height="32"/>
   <object id="106" x="80" y="288" width="96" height="32"/>
   <object id="107" x="80" y="336" width="48" height="112"/>
-  <object id="108" x="144" y="144" width="64" height="48"/>
-  <object id="109" x="144" y="192" width="32" height="80"/>
   <object id="110" x="192" y="272" width="32" height="96"/>
   <object id="111" x="144" y="336" width="48" height="32"/>
   <object id="112" x="144" y="384" width="64" height="64"/>
@@ -417,12 +412,20 @@
   <object id="136" x="192" y="32" width="96" height="48"/>
   <object id="137" x="256" y="208" width="32" height="16"/>
   <object id="138" x="272" y="224" width="16" height="32"/>
-  <object id="139" x="192" y="240" width="80" height="16"/>
-  <object id="140" x="192" y="208" width="16" height="32"/>
-  <object id="141" x="208" y="208" width="16" height="16"/>
   <object id="142" x="416" y="144" width="32" height="96"/>
-  <object id="146" name="ghost-entrance-1" x="224" y="208" width="16" height="16"/>
-  <object id="147" name="ghost-entrance-2" x="240" y="208" width="16" height="16"/>
+  <object id="147" name="ghost-entrance" x="240" y="208" width="16" height="16"/>
+  <object id="541" x="208" y="208" width="32" height="16"/>
+  <object id="542" x="208" y="224" width="16" height="32"/>
+  <object id="543" x="224" y="240" width="48" height="16"/>
+  <object id="544" x="80" y="192" width="64" height="32"/>
+  <object id="545" x="144" y="144" width="64" height="32"/>
+  <object id="546" x="160" y="176" width="48" height="16"/>
+  <object id="547" x="160" y="192" width="32" height="48"/>
+  <object id="548" x="144" y="240" width="32" height="32"/>
+  <object id="549" x="176" y="240" width="16" height="16"/>
+  <object id="550" x="80" y="80" width="96" height="16"/>
+  <object id="551" x="80" y="96" width="128" height="16"/>
+  <object id="552" x="144" y="112" width="64" height="16"/>
  </objectgroup>
  <objectgroup id="10" name="transition-vertical" locked="1">
   <object id="143" name="top" x="64" y="0" width="16" height="16"/>
@@ -431,12 +434,21 @@
  <objectgroup id="9" name="start-position" locked="1">
   <object id="76" x="176" y="320" width="16" height="16"/>
  </objectgroup>
- <objectgroup id="5" name="ghost-spawn-area" locked="1">
-  <object id="88" x="208" y="224" width="64" height="16"/>
+ <objectgroup id="14" name="blue-spawn" locked="1">
+  <object id="534" x="224" y="224" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup id="15" name="red-spawn" locked="1">
+  <object id="535" x="240" y="192" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup id="16" name="pink-spawn" locked="1">
+  <object id="537" x="240" y="224" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup id="17" name="orange-spawn" locked="1">
+  <object id="538" x="256" y="224" width="16" height="16"/>
  </objectgroup>
  <layer id="1" name="map" width="30" height="30" locked="1">
   <data encoding="base64" compression="zlib">
-   eJy9VstOwzAQ9IHHAcTjgNSeaCQuKBJHempJEFLS8v//w1qKxWQyawc19DDq2mkym9nxbo4hhK3h3dAbWkM37P0XDoaXgeucuAHenWEP8QqwpmsXhkvDleGarnnxCtbIW0HcDbonbKEGtcgfn/HmxC2sPd4cYk53hnvDg+ExjH3hxeifyuHN6bwEPN6UH/qvEXX2ao6x+j9y1aC/0pbrHGt062iPsdLd42X/KTwB7yk6Yz7Js5wH5vIMvJxnWnt18Tys/JeupVxegZfzVHXJedjTNf7vGKa91Dsnf/GwOkeoi+c5BVWXObxKZ671p+GLavgN96czWNLZqzXz5vpkDvWJOqsZ2cN9arZETT7CuF/P0Rk9lAN7zcsPuXL9ij3jzbe54Hfs6XnrMD3/rFH83WTuKz2D9UrnXp1/nqsbuo/B3zbspTl6sS+Rt6St8pXSWfVb9GU6U02Y9mLW1jtHnFsbpv2WNec5rfa9+iidmXcJeO/Lcxl5d+HXm/vCHtdH9Z4Yq9nNvBVcY0+pvVI/RF7Mjecp9uQ5e7hWMfLm5qmaL8o7nViXvq/OicjbhPG38tJgH8a92AN+AB6FvgY=
+   eJy9VstOwzAQ9IHHAcTjgNSeaAoXFECcyImiqIdE4v//h7UUS5PprO2K0MOotlN7NrPj3WxDCJ3h0zAaesMwrf0XngzPE9cpcQW8X4YdjFeANT07M5wbLgyX9Mwbr2COvA2Mh0n3hA5y0Ir48Yx3Z9zD3OPNIcZ0Y7g13Bnuw9wX3hj90zi8OZ2XgMeb4kP/vYo8eznHsfo/crWgv9KW8xxzdO1oj2Olu8fL/lN4AN6/6IzxJM9yHBjLI/BynGnu5cXzMPtvmHKMsbwAL8ep8pLzcE7XePbWyRfHeYyHvXu0A17Pdwy1v4ZX6cS+i7nbUw5/YH8X6nT2ct0LXq6VNXWuPUJn9OJ38PvkCP9TvSVq8hbm9Tqns/JQDuw17rululHyjNffasHvONJ563B4/1mj+LvJ7CudwXolP6v7z311Q/sY/G3DXqrRi32JvCVtla+Uzqreoi/TfVI9krX17hHH1ofDesuac59W615+lM7MuwS89+W+jLypLrKWao3zg++C76t6N/M28Iw9pdZK9RB5MTbup1iPa9ZwrsbIm+unqr8o7wxiXvq+OiUi70eYfysvDfZhXIs14BcoGb0b
   </data>
  </layer>
 </map>

@@ -72,14 +72,14 @@
 #begin Spritesheets/pacman-ghost-blue.sf
 /copy:Spritesheets/pacman-ghost-blue.sf
 
-#begin Spritesheets/pacman-ghost-green.sf
-/copy:Spritesheets/pacman-ghost-green.sf
+#begin Spritesheets/pacman-ghost-orange.sf
+/copy:Spritesheets/pacman-ghost-orange.sf
+
+#begin Spritesheets/pacman-ghost-pink.sf
+/copy:Spritesheets/pacman-ghost-pink.sf
 
 #begin Spritesheets/pacman-ghost-red.sf
 /copy:Spritesheets/pacman-ghost-red.sf
-
-#begin Spritesheets/pacman-ghost-yellow.sf
-/copy:Spritesheets/pacman-ghost-yellow.sf
 
 #begin Spritesheets/pacman-main.sf
 /copy:Spritesheets/pacman-main.sf

@@ -5,28 +5,28 @@
     "regionHeight": 16
   },
   "cycles": {
-    "ghost-green-move-left": {
-      "frames": [396,397],
+    "ghost-pink-move-left": {
+      "frames": [492,493],
       "isLooping": true,
       "frameDuration": 0.2
     },
-    "ghost-green-move-up": {
-      "frames": [420,421],
+    "ghost-pink-move-up": {
+      "frames": [516,517],
       "isLooping": true,
       "frameDuration": 0.2
     },
-    "ghost-green-move-right": {
-      "frames": [422,423],
+    "ghost-pink-move-right": {
+      "frames": [518,519],
       "isLooping": true,
       "frameDuration": 0.2
     },
-    "ghost-green-move-down": {
-      "frames": [398,399],
+    "ghost-pink-move-down": {
+      "frames": [494,495],
       "isLooping": true,
       "frameDuration": 0.2
     },
-    "ghost-green-vulnerable": {
-      "frames": [444,445],
+    "ghost-pink-vulnerable": {
+      "frames": [540,541],
       "isLooping": true,
       "frameDuration": 0.2
     },

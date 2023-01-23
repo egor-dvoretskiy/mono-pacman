@@ -26,9 +26,11 @@ namespace Pacman.Source.Abstract
         protected Direction direction = Direction.None;
         protected GhostMode ghostMode = GhostMode.None;
         protected Vector2 latestPlayerPosition;
+        protected Direction latestPlayerDirection;
         protected string currentAnimation;
         protected (int, int) _patrolScatterPosition;
         protected (int, int) _stepScatterPosition;
+        protected (int, int) _stepChasePosition;
 
         protected LinkedList<NodeAStar> scatterPath;
         protected LinkedListNode<NodeAStar> currentLinkedNode;
@@ -77,6 +79,25 @@ namespace Pacman.Source.Abstract
             get => ((int)Position.X / Width, (int)Position.Y / Height);
         }
 
+        public (int, int) LatestPlayerPositionMatrix
+        {
+            get
+            {
+                var xrest = latestPlayerPosition.X % _map.TiledMap.TileWidth;
+                var yrest = latestPlayerPosition.Y % _map.TiledMap.TileHeight;
+                var xequation = latestPlayerPosition.X / _map.TiledMap.TileWidth;
+                var yequation = latestPlayerPosition.Y / _map.TiledMap.TileHeight;
+
+                if (xrest != 0 && yrest == 0)
+                    return (latestPlayerDirection == Direction.Left ? (int)Math.Floor(xequation) : (int)Math.Ceiling(xequation), (int)yequation);
+
+                if (xrest == 0 && yrest != 0)
+                    return ((int)xequation, latestPlayerDirection == Direction.Up ? (int)Math.Floor(yequation) : (int)Math.Ceiling(yequation));
+
+                return ((int)xequation, (int)yequation);
+            }
+        }
+
         public Vector2 PatrolScatterPosition
         {
             get => new Vector2(_patrolScatterPosition.Item1 * _map.TiledMap.TileWidth, _patrolScatterPosition.Item2 * _map.TiledMap.TileHeight);
@@ -87,14 +108,20 @@ namespace Pacman.Source.Abstract
             get => new Vector2(_stepScatterPosition.Item1 * _map.TiledMap.TileWidth, _stepScatterPosition.Item2 * _map.TiledMap.TileHeight);
         }
 
+        public Vector2 StepChasePosition
+        {
+            get => new Vector2(_stepChasePosition.Item1 * _map.TiledMap.TileWidth, _stepChasePosition.Item2 * _map.TiledMap.TileHeight);
+        }
+
         public Vector2 ScatterPosition
         {
             get => new Vector2(_scatterPosition.Item1 * _map.TiledMap.TileWidth, _scatterPosition.Item2 * _map.TiledMap.TileHeight);
         }
 
-        public virtual void UpdatePlayerPosition(Vector2 playerPosition)
+        public virtual void UpdatePlayerPosition(Vector2 playerPosition, Direction playerDirection)
         {
             latestPlayerPosition = playerPosition;
+            latestPlayerDirection = playerDirection;
         }
 
         public override void Update(GameTime gameTime)
@@ -166,7 +193,7 @@ namespace Pacman.Source.Abstract
 
             if (scatterPath is null)
             {
-                scatterPath = _astarProcessor.FindScatterPath(ghostMode == GhostMode.Patrol ? _patrolScatterPosition : _scatterPosition, PositionMatrix);
+                scatterPath = _astarProcessor.FindPath(ghostMode == GhostMode.Patrol ? _patrolScatterPosition : _scatterPosition, PositionMatrix);
 
                 if (scatterPath != null)
                     currentLinkedNode = scatterPath.First;
@@ -252,6 +279,7 @@ namespace Pacman.Source.Abstract
                 return;
             }
         }
+
         protected (Vector2, Vector2) FoundFarestWayByEuristicSearch(List<(Vector2, Vector2)> localVelocities)
         {
             List<int> localDistances = new List<int>();
@@ -342,6 +370,10 @@ namespace Pacman.Source.Abstract
         protected bool IsPositionAtPatrolScatterPosition() =>
             PositionOriginOffset.X == PatrolScatterPosition.X &&
             PositionOriginOffset.Y == PatrolScatterPosition.Y;
+
+        protected bool IsPositionAtStepChasePosition() =>
+            PositionOriginOffset.X == StepChasePosition.X &&
+            PositionOriginOffset.Y == StepChasePosition.Y;
 
         protected void SetPatrolPosition()
         {

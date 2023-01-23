@@ -172,13 +172,13 @@ namespace Pacman.Source.Models
             SetGhostPhase(GhostPhase.Scatter);
         }
 
-        public void Update(GameTime gameTime, Vector2 playerPosition)
+        public void Update(GameTime gameTime, Vector2 playerPosition, Direction playerDirection)
         {
             foreach (var ghost in _ghosts)
             {
                 //ghost.GhostPhase = ghostPhase;
                 ghost.Update(gameTime);
-                ghost.UpdatePlayerPosition(playerPosition);
+                ghost.UpdatePlayerPosition(playerPosition, playerDirection);
             }
         }
 

@@ -39,5 +39,30 @@ namespace Pacman.Source.Models.Ghosts
 
             Name = "Blinky";
         }
+
+        protected override void MoveChase()
+        {
+            if (IsPositionAtStepChasePosition())
+            {
+                scatterPath = null;
+                currentLinkedNode = null;
+            }
+
+            if (scatterPath is null)
+            {
+                scatterPath = _astarProcessor.FindPath(LatestPlayerPositionMatrix, PositionMatrix);
+
+                if (scatterPath != null)
+                    currentLinkedNode = scatterPath.First;
+            }
+
+            Vector2 step = new Vector2(
+                Math.Sign(StepChasePosition.X - PositionOriginOffset.X) * Velocity.X,
+                Math.Sign(StepChasePosition.Y - PositionOriginOffset.Y) * Velocity.Y
+            );
+
+            Position += step;
+            AssignDirection(step);
+        }
     }
 }

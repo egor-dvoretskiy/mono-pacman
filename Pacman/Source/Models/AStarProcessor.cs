@@ -18,7 +18,7 @@ namespace Pacman.Source.Models
             _map = map;
         }
 
-        public LinkedList<NodeAStar> FindScatterPath((int, int) target, (int, int) position)
+        public LinkedList<NodeAStar> FindPath((int, int) target, (int, int) position)
         {
             LinkedList<NodeAStar> waypointsLinked = new LinkedList<NodeAStar>();
             waypointsLinked.AddLast(new NodeAStar()

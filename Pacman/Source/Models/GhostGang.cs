@@ -182,10 +182,10 @@ namespace Pacman.Source.Models
 
             _ghosts = new Ghost[]
             {
-                red, 
-                /*blue, 
-                pink,
-                orange*/
+                red,
+                //blue,
+                //pink,
+                //orange
             };
 
             SetGhostPhase(GhostPhase.Scatter);

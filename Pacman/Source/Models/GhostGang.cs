@@ -30,10 +30,13 @@ namespace Pacman.Source.Models
         private readonly GhostAnimationCall _animationNamesPink;
 
         private readonly int _patrolScatterRadius = 6;
-        private readonly int _frightenedTime = 200000;
-        private readonly Timer _timer;
+        private readonly int _frightenedTime = 5000;
+        private readonly int _scatterTime = 15000;
+        private readonly int _chaseTime = 15000;
 
-        //private GhostPhase ghostPhase = GhostPhase.Scatter;
+        private readonly Timer _timerFrightened;
+        private readonly Timer _timerChase;
+        private readonly Timer _timerScatter;
 
         public GhostGang(
             Texture2D texture,
@@ -45,13 +48,29 @@ namespace Pacman.Source.Models
         {
             _map = map;
             _scatterPoints = map.TiledMap.ObjectLayers.Single(x => x.Name.Equals("scatter-points"));
-            _timer = new Timer()
+            _timerFrightened = new Timer()
             {
                 AutoReset = false,
                 Enabled = false,
                 Interval = _frightenedTime,                
             };
-            _timer.Elapsed += Timer_Elapsed;
+            _timerFrightened.Elapsed += TimerFrightened_Elapsed;
+
+            _timerChase = new Timer()
+            {
+                AutoReset = false,
+                Enabled = false,
+                Interval = _chaseTime,                
+            };
+            _timerChase.Elapsed += TimerChase_Elapsed;
+
+            _timerScatter = new Timer()
+            {
+                AutoReset = false,
+                Enabled = false,
+                Interval = _scatterTime,                
+            };
+            _timerScatter.Elapsed += TimerScatter_Elapsed;
 
             _animationNamesRed = new GhostAnimationCall()
             {
@@ -170,13 +189,13 @@ namespace Pacman.Source.Models
             };
 
             SetGhostPhase(GhostPhase.Scatter);
+            _timerScatter.Start();
         }
 
         public void Update(GameTime gameTime, Vector2 playerPosition, Direction playerDirection)
         {
             foreach (var ghost in _ghosts)
             {
-                //ghost.GhostPhase = ghostPhase;
                 ghost.Update(gameTime);
                 ghost.UpdatePlayerPosition(playerPosition, playerDirection);
             }
@@ -192,7 +211,9 @@ namespace Pacman.Source.Models
 
         public void NotifyDanger()
         {
-            _timer.Start();
+            _timerFrightened.Start();
+            _timerChase.Stop();
+            _timerScatter.Stop();
 
             foreach (var ghost in _ghosts)
             {
@@ -201,12 +222,31 @@ namespace Pacman.Source.Models
             }
         }
 
-        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+        private void TimerFrightened_Elapsed(object sender, ElapsedEventArgs e)
         {
-            foreach (var ghost in _ghosts)
-            {
-                ghost.GhostPhase = ghost.PreviousGhostPhase;
-            }
+            SetGhostPhase(GhostPhase.Scatter);
+
+            _timerScatter.Start();
+            _timerChase.Stop();
+            _timerFrightened.Stop();
+        }
+
+        private void TimerChase_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            SetGhostPhase(GhostPhase.Scatter);
+
+            _timerScatter.Start();
+            _timerChase.Stop();
+            _timerFrightened.Stop();
+        }
+
+        private void TimerScatter_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            SetGhostPhase(GhostPhase.Chase);
+
+            _timerScatter.Stop();
+            _timerChase.Start();
+            _timerFrightened.Stop();
         }
 
         private void SetGhostPhase(GhostPhase ghostPhase)
@@ -214,6 +254,7 @@ namespace Pacman.Source.Models
             foreach (var ghost in _ghosts)
             {
                 ghost.GhostPhase = ghostPhase;
+                ghost.ResetMovement();
             }
         }
 

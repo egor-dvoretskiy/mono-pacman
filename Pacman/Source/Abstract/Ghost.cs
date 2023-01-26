@@ -19,9 +19,9 @@ namespace Pacman.Source.Abstract
         protected readonly AStarProcessor _astarProcessor;
         protected readonly GhostAnimationCall _animationNames;
         protected readonly TiledMapObjectLayer _restrictedWays;
-        protected readonly (int, int) _scatterPosition;
         protected readonly Transitions _transitions;
         protected readonly IEnumerable<(int, int)> _patrolZone;
+        protected readonly (int, int) _scatterPosition;
 
         protected Direction direction = Direction.None;
         protected GhostMode ghostMode = GhostMode.None;
@@ -32,7 +32,7 @@ namespace Pacman.Source.Abstract
         protected (int, int) _stepScatterPosition;
         protected (int, int) _stepChasePosition;
 
-        protected LinkedList<NodeAStar> scatterPath;
+        protected LinkedList<NodeAStar> astarPath;
         protected LinkedListNode<NodeAStar> currentLinkedNode;
 
         public Ghost(
@@ -51,6 +51,7 @@ namespace Pacman.Source.Abstract
             _restrictedWays = map.TiledMap.ObjectLayers.Single(x => x.Name.Equals("map-restricted"));
             _astarProcessor = new AStarProcessor(map.MatrixMap);
             _stepScatterPosition = PositionMatrix;
+            _stepChasePosition = PositionMatrix;
             _animationNames = animationNames;
             _animation = animatedSprite;
             _transitions = transitions;
@@ -140,6 +141,19 @@ namespace Pacman.Source.Abstract
             spriteBatch.Draw(_animation, Position, 0);
         }
 
+        public void ResetMovement()
+        {
+            if (astarPath != null)
+            {
+                astarPath.Clear();
+                astarPath = null;
+            }
+
+            currentLinkedNode = null;
+            _stepChasePosition = PositionMatrix;
+            _stepScatterPosition = PositionMatrix;
+        }
+
         protected virtual void Move()
         {
             switch (GhostPhase)
@@ -186,17 +200,17 @@ namespace Pacman.Source.Abstract
             {
                 ghostMode = GhostMode.Patrol;
 
-                scatterPath = null;
+                astarPath = null;
                 currentLinkedNode = null;
                 SetPatrolPosition();
             }
 
-            if (scatterPath is null)
+            if (astarPath is null)
             {
-                scatterPath = _astarProcessor.FindPath(ghostMode == GhostMode.Patrol ? _patrolScatterPosition : _scatterPosition, PositionMatrix);
+                astarPath = _astarProcessor.FindPath(ghostMode == GhostMode.Patrol ? _patrolScatterPosition : _scatterPosition, PositionMatrix);
 
-                if (scatterPath != null)
-                    currentLinkedNode = scatterPath.First;
+                if (astarPath != null)
+                    currentLinkedNode = astarPath.First;
             }
 
             if (IsPositionFitsStepScatterPosition())
@@ -283,7 +297,6 @@ namespace Pacman.Source.Abstract
         protected (Vector2, Vector2) FoundFarestWayByEuristicSearch(List<(Vector2, Vector2)> localVelocities)
         {
             List<int> localDistances = new List<int>();
-            int farestWayIndex = 0;
             int biggestEuristicDistance = 0;
             for (int i = 0; i < localVelocities.Count; i++)
             {
@@ -292,7 +305,6 @@ namespace Pacman.Source.Abstract
                 {
                     localDistances.Clear();
 
-                    farestWayIndex = i;
                     biggestEuristicDistance = currentEuristicApproach;
                     localDistances.Add(i);
                     continue;

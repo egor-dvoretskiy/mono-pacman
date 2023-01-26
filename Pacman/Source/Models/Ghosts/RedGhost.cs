@@ -44,16 +44,24 @@ namespace Pacman.Source.Models.Ghosts
         {
             if (IsPositionAtStepChasePosition())
             {
-                scatterPath = null;
+                astarPath = null;
                 currentLinkedNode = null;
             }
 
-            if (scatterPath is null)
+            if (astarPath is null)
             {
-                scatterPath = _astarProcessor.FindPath(LatestPlayerPositionMatrix, PositionMatrix);
+                astarPath = _astarProcessor.FindPath(LatestPlayerPositionMatrix, PositionMatrix);
 
-                if (scatterPath != null)
-                    currentLinkedNode = scatterPath.First;
+                if (astarPath != null)
+                    currentLinkedNode = astarPath.First;
+            }
+
+            if (IsPositionAtStepChasePosition())
+            {
+                if (currentLinkedNode != null)
+                    currentLinkedNode = currentLinkedNode.Next;
+
+                _stepChasePosition = currentLinkedNode is null ? PositionMatrix : currentLinkedNode.Value.Position;
             }
 
             Vector2 step = new Vector2(

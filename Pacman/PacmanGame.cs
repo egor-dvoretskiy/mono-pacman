@@ -187,7 +187,7 @@ namespace Pacman
 
             tiledMapRenderer.Update(gameTime);
             player.Update(gameTime);
-            _ghostGang.Update(gameTime, player.Position, player.Direction);
+            _ghostGang.Update(gameTime, player.Position, player.Direction, player.PureLatestPosition);
 
             CheckCoinIntersection(player);
             CheckRubyIntersection(player);

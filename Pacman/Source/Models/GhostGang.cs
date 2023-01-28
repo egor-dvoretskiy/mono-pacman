@@ -183,16 +183,16 @@ namespace Pacman.Source.Models
             _ghosts = new Ghost[]
             {
                 red,
-                //blue,
-                //pink,
-                //orange
+                blue,
+                pink,
+                orange
             };
 
             SetGhostPhase(GhostPhase.Scatter);
             _timerScatter.Start();
         }
 
-        public void Update(GameTime gameTime, Vector2 playerPosition, Direction playerDirection)
+        public void Update(GameTime gameTime, Vector2 playerPosition, Direction playerDirection, (int, int) purePlayersLatestPosition)
         {
             foreach (var ghost in _ghosts)
             {

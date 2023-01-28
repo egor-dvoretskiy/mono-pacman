@@ -56,6 +56,8 @@ namespace Pacman.Source.Models
             get => direction;
         }
 
+        public (int, int) PureLatestPosition { get; private set; }
+
         public override void Update(GameTime gameTime)
         {
             var deltaSeconds = (float)gameTime.ElapsedGameTime.TotalSeconds;

@@ -39,6 +39,40 @@ namespace Pacman.Source.Models.Ghosts
             /// Add to matrix map more numbers to avoid visiting transition tiles by ghosts.
 
             Name = "Bashful";
-        }        
+        }
+
+        protected override void MoveChase()
+        {
+            // the RED's behaviour.
+            if (IsPositionAtStepChasePosition())
+            {
+                astarPath = null;
+                currentLinkedNode = null;
+            }
+
+            if (astarPath is null)
+            {
+                astarPath = _astarProcessor.FindPath(LatestPlayerPositionMatrix, PositionMatrix, PureLatestPosition);
+
+                if (astarPath != null)
+                    currentLinkedNode = astarPath.First;
+            }
+
+            if (IsPositionAtStepChasePosition())
+            {
+                if (currentLinkedNode != null)
+                    currentLinkedNode = currentLinkedNode.Next;
+
+                _stepChasePosition = currentLinkedNode is null ? PositionMatrix : currentLinkedNode.Value.Position;
+            }
+
+            Vector2 step = new Vector2(
+                Math.Sign(StepChasePosition.X - PositionOriginOffset.X) * Velocity.X,
+                Math.Sign(StepChasePosition.Y - PositionOriginOffset.Y) * Velocity.Y
+            );
+
+            Position += step;
+            AssignDirection(step);
+        }
     }
 }

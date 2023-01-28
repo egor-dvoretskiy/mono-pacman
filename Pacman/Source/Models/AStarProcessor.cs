@@ -18,17 +18,25 @@ namespace Pacman.Source.Models
             _map = map;
         }
 
-        public LinkedList<NodeAStar> FindPath((int, int) target, (int, int) position)
+        public LinkedList<NodeAStar> FindPath((int, int) target, (int, int) position, (int, int) forbiddenTile)
         {
-            LinkedList<NodeAStar> waypointsLinked = new LinkedList<NodeAStar>();
+            LinkedList<NodeAStar> waypointsLinked = new LinkedList<NodeAStar>(); 
+            List<NodeAStar> closedNodes = new List<NodeAStar>() 
+            { 
+                new NodeAStar()
+                {
+                    Position = forbiddenTile,
+                    EuristicApproach = CalculateEuristicApproach(position, target),
+                    StepApproach = 0
+                } 
+            };
             waypointsLinked.AddLast(new NodeAStar()
             {
                 Position = position,
                 EuristicApproach = CalculateEuristicApproach(position, target),
                 StepApproach = 0
             });
-
-            List<NodeAStar> closedNodes = AssignCloseNodes(waypointsLinked.Last.Value.Position, target); // add ghost-spawn to closed nodes;
+            closedNodes.AddRange(AssignCloseNodes(waypointsLinked.Last.Value.Position, target)); // add ghost-spawn to closed nodes;
             //
             // infinite loop when target if no opened nodes assigned.
             int stepAmount = 0;

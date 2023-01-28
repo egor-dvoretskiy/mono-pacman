@@ -50,7 +50,7 @@ namespace Pacman.Source.Models.Ghosts
 
             if (astarPath is null)
             {
-                astarPath = _astarProcessor.FindPath(GetChaseTarget(), PositionMatrix);
+                astarPath = _astarProcessor.FindPath(GetChaseTarget(), PositionMatrix, PureLatestPosition);
 
                 if (astarPath != null)
                     currentLinkedNode = astarPath.First;

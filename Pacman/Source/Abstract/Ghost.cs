@@ -75,6 +75,8 @@ namespace Pacman.Source.Abstract
             get => new Vector2(Position.X - _animation.Origin.X, Position.Y - _animation.Origin.Y);
         }
 
+        public (int, int) PureLatestPosition { get; private set; }
+
         public (int, int) PositionMatrix
         {
             get => ((int)Position.X / Width, (int)Position.Y / Height);
@@ -207,7 +209,7 @@ namespace Pacman.Source.Abstract
 
             if (astarPath is null)
             {
-                astarPath = _astarProcessor.FindPath(ghostMode == GhostMode.Patrol ? _patrolScatterPosition : _scatterPosition, PositionMatrix);
+                astarPath = _astarProcessor.FindPath(ghostMode == GhostMode.Patrol ? _patrolScatterPosition : _scatterPosition, PositionMatrix, PureLatestPosition);
 
                 if (astarPath != null)
                     currentLinkedNode = astarPath.First;
@@ -291,6 +293,14 @@ namespace Pacman.Source.Abstract
             {
                 direction = Direction.Up;
                 return;
+            }
+        }
+
+        protected void AssignPureLatestPosition()
+        {
+            if (Position.X % _map.TiledMap.TileWidth == 0 && Position.Y % _map.TiledMap.TileHeight == 0)
+            {
+                PureLatestPosition = ((int)Position.X / _map.TiledMap.TileWidth, (int)Position.Y / _map.TiledMap.TileHeight);
             }
         }
 
